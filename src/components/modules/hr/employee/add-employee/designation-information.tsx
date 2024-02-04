@@ -1,4 +1,3 @@
-import { EMPLOYEE_FORM_STEPPERS } from "@/_utils/enums";
 import { fetchAllDesignationApiResponse } from "@/_utils/types/designation";
 import BaseButton from "@/components/common/button/base-button";
 import BaseInput from "@/components/common/form/base-input";
@@ -9,14 +8,10 @@ import {
   employeeFormSubmitType,
   employeeFormTrigger,
 } from "@/components/modules/hr/employee/add-employee/index";
-import EmployeeService from "@/services/employees/client/employee.service";
-import addEmployeeState from "@/store";
 
 export default function DesignationInformation({
   control,
   designationData,
-  trigger,
-  handleSubmit,
 }: {
   control: employeeFormControl;
   designationData: fetchAllDesignationApiResponse | undefined;
@@ -28,7 +23,7 @@ export default function DesignationInformation({
       <div className="flex flex-col gap-4 mb-4">
         <BaseSelect
           variant={"underlined"}
-          values={designationData}
+          values={designationData?.data}
           control={control}
           name="designationId"
           label="Designation"

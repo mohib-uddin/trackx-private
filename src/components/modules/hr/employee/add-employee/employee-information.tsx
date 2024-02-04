@@ -79,7 +79,7 @@ export default function EmployeeInformation({
         />
         <BaseSelect
           variant={"underlined"}
-          values={departmentData}
+          values={departmentData?.data}
           control={control}
           name="departmentId"
           label="Department"

@@ -184,8 +184,8 @@ const AddEmployeeForm = () => {
   const { useFetchAllEmploymentStatus, useHandleCreateNewEmployee } =
     EmployeeService();
   const { useFetchAllLeavePolicies } = LeavePolicyService();
-  const { data: designationData } = useFetchAllDesignations(true);
-  const { data: departmentData } = useFetchAllDepartments("all");
+  const { data: designationData } = useFetchAllDesignations(1, "", true);
+  const { data: departmentData } = useFetchAllDepartments("", 1, true);
   const { data: rolesData } = useFetchAllRoles("all");
   const { data: shiftData } = useFetchAllShifts("true");
   const { data: employmentStatus } = useFetchAllEmploymentStatus(true);

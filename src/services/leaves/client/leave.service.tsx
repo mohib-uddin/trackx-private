@@ -30,7 +30,7 @@ const LeaveManagementService = () => {
       acceptLeaveTo: string;
       reviewComment: string;
       status: string;
-      id: string;
+      id: number;
     }): Promise<loginApiResponse> {
       return axios
         .put(`/leave-application/${data.id}`, data)

@@ -27,10 +27,6 @@ export default function LeaveCard({ leave }: { leave: leaveType }) {
     handleSubmit,
     control,
     formState: { isValid },
-    reset,
-    trigger,
-    register,
-    watch,
   } = useForm({
     resolver: zodResolver(leaveSchema),
   });
@@ -125,6 +121,7 @@ export default function LeaveCard({ leave }: { leave: leaveType }) {
                 status: "REJECTED",
                 acceptLeaveFrom: new Date().toISOString(),
                 acceptLeaveTo: new Date().toISOString(),
+                reviewComment: "",
               });
             }}
             color="danger"
