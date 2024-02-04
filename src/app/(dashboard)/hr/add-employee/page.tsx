@@ -1,8 +1,10 @@
-import BaseHeader from "@/components/common/header/base-header";
+import AddEmployeeForm from "../../../../components/modules/hr/employee/add-employee";
 
-const AddEmployee=()=>{
-return(
-    <BaseHeader title={'New Employee'}/>
-)
-}
+const AddEmployee = () => {
+  return (
+    <div>
+      <AddEmployeeForm />
+    </div>
+  );
+};
 export default AddEmployee;

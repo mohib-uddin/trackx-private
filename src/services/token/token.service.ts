@@ -16,6 +16,9 @@ class TokenService {
   saveLocalAccessToken = (token: string) => {
     Cookies.set(cookieAuth, token, { sameSite: "strict" });
   };
+  getLanguage = () => {
+    return Cookies.get("NEXT_LOCALE");
+  };
   getLocalRefreshToken = () => {
     return Cookies.get(cookieRefresh);
   };

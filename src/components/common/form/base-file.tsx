@@ -4,6 +4,9 @@ import {
   UseControllerProps,
 } from "react-hook-form";
 import { MdOutlineDriveFolderUpload } from "react-icons/md";
+import { toast } from "sonner";
+
+const MEDIA_BASEURL = "/";
 
 type WithRequiredProperty<Type, Key extends keyof Type> = Type & {
   [Property in Key]-?: Type[Property];
@@ -22,29 +25,42 @@ type Props<T extends FieldValues> = {
   name: string;
   inputvalue: undefined | any;
   label: string;
+  imageUrl?: string;
 } & selectedImageType &
   WithRequiredProperty<UseControllerProps<T>, "control">;
 type PhotoPreviewPropType =
   | {
       selectedImage: undefined | File | null;
       isMultiple: false;
+      imageUrl?: string;
     }
   | {
       selectedImage: undefined | File[] | null;
       isMultiple: true;
+      imageUrl?: string;
     };
-const PhotoPreview = ({ selectedImage, isMultiple }: PhotoPreviewPropType) => {
-  if (!selectedImage || (isMultiple && selectedImage.length < 0)) {
+const PhotoPreview = ({
+  selectedImage,
+  isMultiple,
+  imageUrl,
+}: PhotoPreviewPropType) => {
+  if (!selectedImage && imageUrl) {
+    return (
+      <img
+        src={`${MEDIA_BASEURL}${imageUrl}`}
+        alt="User"
+        className="m-auto w-48 h-48"
+      />
+    );
+  } else if (!selectedImage || (isMultiple && selectedImage.length < 0)) {
     return (
       <div className="flex flex-col items-center justify-center space-y-3 min-h-[250px]">
         <span className="flex h-10 w-10 items-center justify-center rounded-full border border-stroke bg-white">
           <MdOutlineDriveFolderUpload />
         </span>
-        <p>
-          <span className="text-gold">Click to upload</span> or drag and drop
-        </p>
+        <p>Click to Upload or drag and drop</p>
         <p className="mt-1.5 text-sm text-[#95989F] ">
-          Only JPG, PNG format allowed
+          Only JPG,PNG format Allowed
         </p>
       </div>
     );
@@ -77,12 +93,13 @@ const BaseFile = <T extends FieldValues>({
   name,
   rules = {},
   inputvalue,
+  imageUrl,
   selectedImage,
   label,
   isMultiple = false,
 }: Props<T>) => {
   const {
-    field: { onChange: fieldOnChange },
+    field: { onChange: fieldOnChange, value },
     fieldState: { error },
   } = useController<T>({ name, control, rules });
   return (
@@ -103,6 +120,7 @@ const BaseFile = <T extends FieldValues>({
               <PhotoPreview
                 selectedImage={selectedImage as File[] | null | undefined}
                 isMultiple={isMultiple}
+                imageUrl={imageUrl}
               />
             </div>
           )}
@@ -110,6 +128,7 @@ const BaseFile = <T extends FieldValues>({
             <PhotoPreview
               selectedImage={selectedImage as File | null | undefined}
               isMultiple={isMultiple}
+              imageUrl={imageUrl}
             />
           )}
           <>
@@ -131,10 +150,18 @@ const BaseFile = <T extends FieldValues>({
                     }
                   } else {
                     if (files && files.length > 0) {
-                      console.log(
-                        Array.from(files).map((el) => el),
-                        "Array.from(files).map((el) => el)",
-                      );
+                      if (
+                        selectedImage &&
+                        Array.isArray(selectedImage) &&
+                        selectedImage.length + files.length > 5
+                      ) {
+                        toast.info("Max 5 Files Are Allowed");
+                        return;
+                      }
+                      if (!selectedImage && files.length > 5) {
+                        toast.info("Max 5 Files Are Allowed");
+                        return;
+                      }
                       fieldOnChange(Array.from(files).map((el) => el));
                     } else {
                       if (inputvalue) {

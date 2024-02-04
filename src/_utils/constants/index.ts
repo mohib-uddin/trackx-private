@@ -1,16 +1,7 @@
-export const PUBLIC_ENDPOINTS = [
-  "/auth/login",
-  "/auth/signup",
-  "/auth/forgot-password",
-  "/auth/forgot-password/change-password",
-  "/auth/email-verification",
-  "/auth/resend-verification-code",
-];
-
-export const API_BASEURL = "https://taskii.app/api/v1";
-
-export const MEDIA_BASEURL = "https://taskii.app/uploads/";
-
-export const SOCKET_CONNECTION_URL = "https://taskii.app/user-session";
-
+export const API_BASEURL = "http://13.48.67.109";
 export * from "./cookies";
+
+export const PUBLIC_ENDPOINTS: string[] = ["/user/login"];
+
+export const MAX_FILE_SIZE = 2097152;
+export const ACCEPTED_IMAGE_TYPES = ["jpg", "jpeg", "png"];

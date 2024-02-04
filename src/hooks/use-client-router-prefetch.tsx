@@ -1,6 +1,5 @@
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-
-import { useRouter } from "@/_utils/locale/navigation";
 
 const useClientRouterPrefetch = (routes: string[]) => {
   const router = useRouter();

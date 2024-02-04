@@ -21,7 +21,7 @@ export default function BaseButton({
       type={type}
       radius="sm"
       isLoading={isLoading}
-      className={`bg-purple1 text-white font-bold text-base md:text-lg 2xl:text-xl md:p-6 ${extraClass}`}
+      className={`bg-primary text-white font-bold text-base md:text-lg 2xl:text-xl md:p-6 ${extraClass}`}
     >
       {children}
     </Button>

@@ -46,7 +46,16 @@ function BaseInput<T extends FieldValues>({
           label: cn(`  ${invalid ? "text-danger" : ""} mb-2`),
         }}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => {
+          if (type === "date") {
+            onChange(new Date(e.target.value).toISOString());
+          }
+          if (type === "number") {
+            onChange(Number(e.target.value));
+          } else {
+            onChange(e.target.value);
+          }
+        }}
         placeholder={placeholder}
         type={type}
         label={label}

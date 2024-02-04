@@ -3,7 +3,7 @@ import { AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import { toast } from "sonner";
 
 import { PUBLIC_ENDPOINTS } from "@/_utils/constants";
-import TokenService from "@/services/token.service";
+import TokenService from "@/services/token/token.service";
 
 import axios from "./axios-instance";
 
@@ -36,9 +36,9 @@ const errorHandler = async (err: any) => {
     ) &&
     err.response
   ) {
-    if (err.response.status === 401 || err.response.status === 403) {
-      window.location.href = "/login";
-    }
+    // if (err.response.status === 401 || err.response.status === 403) {
+    //   window.location.href = "/login";
+    // }
   }
   return Promise.reject(err);
 };

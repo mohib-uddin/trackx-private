@@ -15,8 +15,9 @@ type Props<T extends FieldValues> = {
   name: string;
   placeholder: string;
   variant: "underlined" | "flat" | "faded" | "bordered" | undefined;
-  values: { label: string; value: string }[];
+  values: { id: string; name: string }[] | undefined;
   className?: string;
+  isString?: boolean;
   label: string;
 } & WithRequiredProperty<UseControllerProps<T>, "control">;
 
@@ -24,7 +25,7 @@ const BaseSelect = <T extends FieldValues>({
   placeholder,
   name,
   control,
-
+  isString = false,
   className,
   values,
   rules,
@@ -39,25 +40,33 @@ const BaseSelect = <T extends FieldValues>({
     control,
     rules,
   });
+  console.log(value, "val");
   return (
     <>
       <Select
-        value={value}
+        items={values || []}
+        value={value ?? ""}
         isInvalid={invalid}
         label={label}
         classNames={{
           label: cn(` ${invalid ? "text-danger" : ""} text-xs !mb-12`),
         }}
         errorMessage={invalid && (error?.message || "Error")}
-        onSelectionChange={onChange}
+        onChange={(e) => {
+          if (!isString) {
+            onChange(Number(e.target.value));
+          } else {
+            onChange(e.target.value);
+          }
+        }}
         variant={variant}
         placeholder={placeholder}
         labelPlacement="inside"
         className="w-full"
       >
-        {values.map((e) => (
-          <SelectItem key={e.label} value={e.value}>
-            {e.label}
+        {(values || []).map((e) => (
+          <SelectItem key={e.id} value={e.id}>
+            {e.name}
           </SelectItem>
         ))}
       </Select>
