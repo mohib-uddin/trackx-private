@@ -31,7 +31,8 @@ export async function middleware(request: NextRequest) {
 
       routes.forEach((route) => {
         const hasPermission =
-          route.route === pathname &&
+          ((route.children && route.route === pathname) ||
+            (!route.children && pathname.includes(route.route))) &&
           (route.permissions === null ||
             route.permissions.some((permission) =>
               userPermissions.data.includes(permission),
