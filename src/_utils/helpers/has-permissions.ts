@@ -2,7 +2,6 @@ import React from "react";
 
 import { ROUTES } from "@/_utils/constants/routes";
 import { PERMISSIONS } from "@/_utils/enums";
-import { userPermissionsApiResponse } from "@/_utils/types";
 
 export type sidebarItemsType = {
   route: string;
@@ -19,21 +18,33 @@ export const getSidebarItems = (permissions: PERMISSIONS[]) => {
     const flag = el.permissions?.some((permission) =>
       permissions.includes(permission),
     );
-    if (flag && el.title) {
-      let item: sidebarItemsType = {
-        route: el.route,
-        title: el.title,
-        children: [],
-      };
+    if ((flag || el.permissions.length === 0) && el.title) {
+      let item: sidebarItemsType;
+      if (el.children) {
+        item = {
+          route: el.route,
+          title: el.title,
+          children: [],
+        };
+      } else {
+        item = {
+          route: el.route,
+          title: el.title,
+        };
+      }
       el?.children?.forEach((innerEl) => {
+        let childrenFlag = false;
         innerEl.permissions.forEach((permission) => {
           if (permissions?.includes(permission)) {
-            item?.children?.push({
-              route: innerEl.route,
-              title: innerEl.title,
-            });
+            childrenFlag = true;
           }
         });
+        if (childrenFlag) {
+          item?.children?.push({
+            route: innerEl.route,
+            title: innerEl.title,
+          });
+        }
       });
       sideBarItems.push(item);
     }

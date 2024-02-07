@@ -6,10 +6,11 @@ export default async function serverFetch<T>(
   url: string,
   tags: string[],
   revalidate?: number,
+  custom?: boolean,
 ): Promise<T> {
   const authorization = cookies().get(cookieAuth)?.value;
 
-  const res = await fetch(`${API_BASEURL}${url}`, {
+  const res = await fetch(custom ? url : `${API_BASEURL}${url}`, {
     headers: { authorization: `Bearer ${authorization}` },
     next: { tags: tags, revalidate: revalidate || 3600 },
   });

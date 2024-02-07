@@ -70,7 +70,7 @@ module.exports = {
             paddingBottom: "2.5rem",
           },
           "@media (min-width:1536px)": {
-            fontSize: "3rem",
+            fontSize: "2rem",
             lineHeight: 1,
           },
         },

@@ -21,7 +21,7 @@ const SidebarDesktop = ({ items }: { items: sidebarItemsType[] }) => {
             <>
               {!el.children ? (
                 <Link
-                  className={`cursor-pointer hover:bg-white hover:text-black flex w-full rounded-sm py-2 px-4 items-center gap-2.5 duration-300 ease-in-out ${pathname.includes(el.route) && "bg-white text-primary"}`}
+                  className={`cursor-pointer hover:opacity-70  flex w-full rounded-sm py-2 px-4 items-center gap-2.5 duration-300 ease-in-out ${pathname.includes(el.route) && "bg-white text-primary"}`}
                   href={el.route}
                 >
                   <span>{el.icon}</span>
@@ -29,7 +29,7 @@ const SidebarDesktop = ({ items }: { items: sidebarItemsType[] }) => {
                 </Link>
               ) : (
                 <span
-                  className={`cursor-pointer  hover:bg-white hover:text-black flex w-full rounded-sm py-2 px-4 items-center gap-2.5 duration-300 ease-in-out ${opened === el.title && "bg-white text-primary"}`}
+                  className={`cursor-pointer hover:opacity-70   flex w-full rounded-sm py-2 px-4 items-center gap-2.5 duration-300 ease-in-out ${pathname.includes(el.route) && "bg-white text-primary"}`}
                   onClick={() => setOpened(el.title)}
                 >
                   <span>{el.icon}</span>

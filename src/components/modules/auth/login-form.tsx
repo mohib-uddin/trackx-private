@@ -5,8 +5,8 @@ import { useForm } from "react-hook-form";
 
 import BaseButton from "@/components/common/button/base-button";
 import BaseInput from "@/components/common/form/base-input";
+import useClientRouterPrefetch from "@/hooks/use-client-router-prefetch";
 import AuthServices from "@/services/auth/client/auth.service";
-// import useClientRouterPrefetch from "@/hooks/use-client-router-prefetch";
 
 type loginFormType = {
   userName: string;
@@ -20,7 +20,7 @@ export default function LoginForm() {
   const onSubmit = (data: loginFormType) => {
     handleLogin(data);
   };
-  // useClientRouterPrefetch(['/home']);
+  useClientRouterPrefetch(["/dashboard"]);
   return (
     <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col gap-4">

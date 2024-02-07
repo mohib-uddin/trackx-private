@@ -6,7 +6,7 @@ import { PERMISSIONS } from "@/_utils/enums";
 export const ROUTES = [
   {
     title: "Dashboard",
-    route: "/",
+    route: "/dashboard",
     permissions: [],
     icon: MdDashboard,
   },
@@ -33,10 +33,14 @@ export const ROUTES = [
         title: "View Employees",
       },
       {
-        route: "/hr/roles",
-        permissions: [PERMISSIONS.READ_ALL_ROLE],
-        title: "Roles",
+        route: "/hr/employee",
+        permissions: [PERMISSIONS.READ_ALL_USER],
       },
+      // {
+      //   route: "/hr/roles",
+      //   permissions: [PERMISSIONS.READ_ALL_ROLE],
+      //   title: "Roles",
+      // },
       {
         route: "/hr/designations",
         permissions: [PERMISSIONS.READ_ALL_DESIGNATION],

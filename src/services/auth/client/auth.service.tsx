@@ -19,7 +19,7 @@ export default function AuthServices() {
       TokenService.setTokenRetries(5);
       TokenService.saveLocalAccessToken(response.token);
       toast.success("Login Successful");
-      router.push("/");
+      router.push("/dashboard");
     };
     const onError = (error: errorType) => {
       toast.error(viewError(error));

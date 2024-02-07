@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse, userAgent } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { cookieAuth } from "@/_utils/constants";
 import { ROUTES } from "@/_utils/constants/routes";
@@ -6,11 +6,11 @@ import { PERMISSIONS } from "@/_utils/enums";
 import { fetchUserPermissions } from "@/services/auth/auth.api";
 
 type routeType = {
-  title: string;
+  title?: string;
   route: string;
   permissions: PERMISSIONS[];
   children?: {
-    title: string;
+    title?: string;
     route: string;
     permissions: PERMISSIONS[];
   }[];
@@ -30,6 +30,10 @@ export async function middleware(request: NextRequest) {
       let isAllowed = false;
 
       routes.forEach((route) => {
+        if (route.permissions.length === 0) {
+          console.log(route.route);
+          NextResponse.next();
+        }
         const hasPermission =
           ((route.children && route.route === pathname) ||
             (!route.children && pathname.includes(route.route))) &&
@@ -46,6 +50,10 @@ export async function middleware(request: NextRequest) {
           // Recursively check children routes
           const childResult = filterRoutes(route.children);
           if (childResult) {
+            isAllowed = true;
+          }
+        } else if (!route.children) {
+          if (pathname.includes(route.route)) {
             isAllowed = true;
           }
         }
