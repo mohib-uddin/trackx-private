@@ -10,7 +10,7 @@ import {
 import React from "react";
 
 interface Props {
-  name: string;
+  name: string | React.ReactNode;
   title: string;
   isIconButton?: boolean;
   icon?: React.ReactNode;
@@ -20,6 +20,7 @@ interface Props {
   openCallback?: () => void;
   type?: string;
   isLoading?: boolean;
+  actionTitle?: string;
 }
 
 export default function BaseFormModal({
@@ -33,6 +34,7 @@ export default function BaseFormModal({
   handleSubmit,
   isLoading,
   type,
+  actionTitle,
 }: Props) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -81,7 +83,7 @@ export default function BaseFormModal({
                   Close
                 </Button>
                 <Button type={"submit"} color="primary" onPress={onClose}>
-                  Action
+                  {actionTitle ?? "Action"}
                 </Button>
               </ModalFooter>
             </form>

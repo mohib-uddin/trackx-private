@@ -54,7 +54,7 @@ const PhotoPreview = ({
     );
   } else if (!selectedImage || (isMultiple && selectedImage.length < 0)) {
     return (
-      <div className="flex flex-col items-center justify-center space-y-3 min-h-[250px]">
+      <div className="flex flex-col items-center border-stone-500 justify-center space-y-3 min-h-[250px]">
         <span className="flex h-10 w-10 items-center justify-center rounded-full border border-stroke bg-white">
           <MdOutlineDriveFolderUpload />
         </span>

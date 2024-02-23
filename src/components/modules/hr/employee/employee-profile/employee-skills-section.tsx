@@ -12,7 +12,7 @@ const EmployeeSkillSection = ({
     <Card className={"w-1/2 max-w-[600px]"}>
       <CardBody className={"p-4"}>
         <h2 className={"mb-2 font-[600]"}>Employee Skills:</h2>
-        {employeeData.skill.map((el, index) => (
+        {employeeData?.skill?.map((el, index) => (
           <Chip size={"lg"} key={index} color={"primary"}>
             {el}
           </Chip>

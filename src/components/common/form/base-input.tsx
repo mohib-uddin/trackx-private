@@ -14,6 +14,7 @@ type WithRequiredProperty<Type, Key extends keyof Type> = Type & {
 type Props<T extends FieldValues> = {
   name: string;
   placeholder?: string;
+  size?: "sm" | "md" | "lg" | "xs";
   extraClass?: string;
   variant?: "underlined" | "flat" | "faded" | "bordered";
   type: "text" | "password" | "number" | "email" | "date" | "time";
@@ -28,6 +29,7 @@ function BaseInput<T extends FieldValues>({
   variant = "underlined",
   label,
   type,
+  size,
 }: Props<T>) {
   const {
     field: { value, onChange },
@@ -42,6 +44,7 @@ function BaseInput<T extends FieldValues>({
   return (
     <>
       <Input
+        className={extraClass}
         classNames={{
           label: cn(`  ${invalid ? "text-danger" : ""} mb-2`),
         }}
@@ -60,6 +63,8 @@ function BaseInput<T extends FieldValues>({
         type={type}
         label={label}
         variant={variant}
+        // @ts-ignore
+        size={size || "md"}
         isInvalid={invalid}
         errorMessage={invalid && (error?.message || "Error")}
       />

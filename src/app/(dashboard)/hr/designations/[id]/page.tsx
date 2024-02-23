@@ -8,6 +8,8 @@ const EmployeeByDesignation = async ({
 }) => {
   const { id } = params;
   const designation = await fetchEmployeeByDesignation(id);
+  console.log(id);
+  console.log(designation, "designation");
   return (
     <div>
       <h2 className={"font-[700] text-2xl"}>{designation.designationName}</h2>

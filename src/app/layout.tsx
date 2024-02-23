@@ -22,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang={"en"}>
-      <body className={lato.className}>
+      <body className={lato.className + " bg-[#F1F5F9]"}>
         <ReactQueryProvider>
           <InterceptorInitialization />
           <NextUiProvider>{children}</NextUiProvider>

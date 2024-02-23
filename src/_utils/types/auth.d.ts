@@ -20,6 +20,7 @@ export type userDataType = {
   createdAt: string;
   updatedAt: string;
   token: string;
+  departmentId: number;
   avatar: string;
 };
 

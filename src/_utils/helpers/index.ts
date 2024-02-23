@@ -1,3 +1,6 @@
+import clsx, { ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
 import { errorType } from "@/_utils/types";
 
 export function viewError(err: errorType) {
@@ -7,7 +10,9 @@ export function viewError(err: errorType) {
     return err.message;
   }
 }
-
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
 export function capitalizeAfterSpace(inputString: string) {
   // Split the input string into words
   const words = inputString.split(" ");

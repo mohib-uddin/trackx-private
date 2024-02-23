@@ -6,4 +6,8 @@ export type roleType = {
   updatedAt: string;
 };
 
-export type fetchAllRolesApiResponse = roleType[];
+export type fetchAllRolesApiResponse = {
+  data: roleType[];
+  lastPage: number;
+  total: number;
+};

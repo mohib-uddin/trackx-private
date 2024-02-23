@@ -1,7 +1,13 @@
 import { EMPLOYEE_FORM_STEPPERS } from "@/_utils/enums";
 import { fetchAllDepartmentsApiResponse } from "@/_utils/types/department";
-import { fetchAllEmploymentStatusApiResponse } from "@/_utils/types/employees";
-import { fetchAllLeavePoliciesApiResponse } from "@/_utils/types/leave-policy";
+import {
+  employmentStatusType,
+  fetchAllEmploymentStatusApiResponse,
+} from "@/_utils/types/employees";
+import {
+  fetchAllLeavePoliciesApiResponse,
+  leavePolicyType,
+} from "@/_utils/types/leave-policy";
 import { fetchAllRolesApiResponse } from "@/_utils/types/role";
 import { fetchAllShiftsApiResponse } from "@/_utils/types/shift";
 import { fetchWeeklyHolidayApiResponse } from "@/_utils/types/weekly-holiday";
@@ -29,8 +35,8 @@ export default function EmployeeInformation({
   rolesData: fetchAllRolesApiResponse | undefined;
   departmentData: fetchAllDepartmentsApiResponse | undefined;
   shiftData: fetchAllShiftsApiResponse | undefined;
-  leavePolicies: fetchAllLeavePoliciesApiResponse | undefined;
-  employmentStatus: fetchAllEmploymentStatusApiResponse | undefined;
+  leavePolicies: leavePolicyType[] | undefined;
+  employmentStatus: employmentStatusType[] | undefined;
   trigger: employeeFormTrigger;
 }) {
   return (
@@ -56,16 +62,7 @@ export default function EmployeeInformation({
             required: "Leave Date is required",
           }}
         />
-        <BaseInput
-          type="text"
-          control={control}
-          name="employeeId"
-          label="Employee ID"
-          placeholder="OE-012"
-          rules={{
-            required: "Employee ID Is Required",
-          }}
-        />
+
         <BaseSelect
           variant={"underlined"}
           values={employmentStatus}
@@ -90,7 +87,7 @@ export default function EmployeeInformation({
         />
         <BaseSelect
           variant={"underlined"}
-          values={rolesData}
+          values={rolesData?.data}
           control={control}
           name="roleId"
           label="Role"
@@ -101,7 +98,7 @@ export default function EmployeeInformation({
         />
         <BaseSelect
           variant={"underlined"}
-          values={shiftData}
+          values={shiftData?.data}
           control={control}
           name="shiftId"
           label="Shift"
@@ -123,7 +120,7 @@ export default function EmployeeInformation({
         />
         <BaseSelect
           variant={"underlined"}
-          values={weeklyHoliday}
+          values={weeklyHoliday?.data}
           control={control}
           name="weeklyHolidayId"
           label="Weekly Holiday"

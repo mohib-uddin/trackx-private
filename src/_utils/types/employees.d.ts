@@ -134,4 +134,6 @@ export type employmentStatusType = {
   updatedAt: string;
 };
 
-export type fetchAllEmploymentStatusApiResponse = employmentStatusType[];
+export type fetchAllEmploymentStatusApiResponse = {
+  data: employmentStatusType[];
+};

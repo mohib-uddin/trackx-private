@@ -1,16 +1,11 @@
+import CheckInOut from "@/components/modules/attendance/automatic/check-in-out";
+import AdminDashboard from "@/components/modules/dashboard/admin-dashboard";
 import { fetchIPAddress } from "@/services/misc/ipfy.api";
 
 const Dashboard = async () => {
-  let ip;
-  try {
-    ip = await fetchIPAddress();
-  } catch (e) {
-    console.log(e);
-  }
-  console.log(ip);
   return (
     <div>
-      <h2>This Is Dashboard</h2>
+      <AdminDashboard />
     </div>
   );
 };

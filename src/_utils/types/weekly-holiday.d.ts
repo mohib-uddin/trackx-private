@@ -11,4 +11,4 @@ export type weeklyHolidayType = {
   user: employeeType[];
 };
 
-export type fetchWeeklyHolidayApiResponse = weeklyHolidayType[];
+export type fetchWeeklyHolidayApiResponse = { data: weeklyHolidayType[] };

@@ -27,6 +27,7 @@ const BaseSearch = ({
     <div className="flex flex-col gap-4">
       <div className="flex justify-between gap-3 items-end">
         <Input
+          size={"sm"}
           isClearable
           className="w-full sm:max-w-[44%]"
           placeholder={placeholder}

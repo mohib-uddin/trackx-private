@@ -8,7 +8,7 @@ import React, { Key, useState } from "react";
 import Moment from "react-moment";
 
 import { employeeStatusColorMap } from "@/_utils/data/tables/employees";
-import { LEAVE_COLS } from "@/_utils/data/tables/leaves";
+import { LEAVE_COLS, leaveStatusColorMap } from "@/_utils/data/tables/leaves";
 import { capitalizeAfterSpace } from "@/_utils/helpers";
 import { leaveType } from "@/_utils/types/leave";
 import BaseSearch from "@/components/common/form/base-search";
@@ -44,7 +44,7 @@ export default function ViewAllLeaves() {
         return (
           <Chip
             className="capitalize"
-            color={employeeStatusColorMap[leave.status]}
+            color={leaveStatusColorMap[leave.status]}
             size="sm"
             variant="flat"
           >
@@ -60,7 +60,9 @@ export default function ViewAllLeaves() {
           <div className="relative flex items-center gap-2">
             <Tooltip content="Details">
               <span
-                onClick={() => router.push(`/hr/designations/${leave.id}`)}
+                onClick={() =>
+                  router.push(`/leaves/leave-management/${leave.id}`)
+                }
                 className="text-lg text-default-400 cursor-pointer active:opacity-50"
               >
                 <EyeIcon />

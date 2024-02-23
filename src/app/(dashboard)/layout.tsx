@@ -3,18 +3,18 @@ import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { PERMISSIONS } from "@/_utils/enums";
 import { getSidebarItems } from "@/_utils/helpers/has-permissions";
 import { userPermissionsApiResponse } from "@/_utils/types";
-import BaseSidebar from "@/components/widgets/base-sidebar";
+import DashboardLayout from "@/components/layouts/dashboard-layout";
 import { fetchUserPermissions } from "@/services/auth/auth.api";
+import { fetchIPAddress } from "@/services/misc/ipfy.api";
 
 export const metadata: Metadata = {
   title: "TrackX",
   description: "Welcome To TrackX",
 };
 
-export default async function DashboardLayout({
+export default async function Layout({
   children,
 }: {
   children: React.ReactNode;
@@ -30,11 +30,16 @@ export default async function DashboardLayout({
   if (!sidebarItems) {
     notFound();
   }
+  let ip;
+  try {
+    ip = await fetchIPAddress();
+  } catch (e) {
+    console.log(e);
+  }
 
   return (
-    <div className={"flex"}>
-      <BaseSidebar items={sidebarItems} />
-      <div className={"w-[90%] md:w-[80%] mt-10 m-auto"}>{children}</div>
-    </div>
+    <DashboardLayout ip={ip} items={sidebarItems}>
+      {children}
+    </DashboardLayout>
   );
 }

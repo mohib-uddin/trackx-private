@@ -11,6 +11,7 @@ import {
   employeeStatusColorMap,
 } from "@/_utils/data/tables/employees";
 import { employeeType } from "@/_utils/types/employees";
+import Breadcrumb from "@/components/common/breadcrumbs";
 import BaseSearch from "@/components/common/form/base-search";
 import BaseHeader from "@/components/common/header/base-header";
 import BaseTable from "@/components/common/tables/base-table";
@@ -36,31 +37,34 @@ export default function ViewAllEmployees() {
             description={user.email}
             name={`${user.firstName}${user.lastName}`}
           >
-            {user.email}
+            {user?.email}
           </User>
         );
       case "designation":
         return (
           <div className="flex flex-col">
-            <p className="text-bold text-sm capitalize">{user.role.name}</p>
+            <p className="text-bold text-sm capitalize">{user?.role?.name}</p>
             <p className="text-bold text-sm capitalize text-default-400">
-              {user.department.name}
+              {user?.department?.name}
             </p>
           </div>
         );
       case "shift":
         return (
-          <p className="text-bold text-sm capitalize">{user.shift.name}</p>
+          <p className="text-bold text-sm capitalize">{user?.shift?.name}</p>
         );
       case "status":
+        if (!user.employmentStatus?.name) {
+          return <p>-</p>;
+        }
         return (
           <Chip
             className="capitalize"
-            color={employeeStatusColorMap[user.employmentStatus.name]}
+            color={employeeStatusColorMap[user?.employmentStatus?.name]}
             size="sm"
             variant="flat"
           >
-            {user.employmentStatus.name}
+            {user?.employmentStatus?.name}
           </Chip>
         );
       case "actions":
@@ -110,7 +114,7 @@ export default function ViewAllEmployees() {
   }, [searchQuery, page]);
   return (
     <div className={"flex flex-col justify-center"}>
-      <BaseHeader title={"View Employees"} />
+      <Breadcrumb pageName={"View Employees"} />
       <BaseTable
         setPage={setPage}
         cols={EMPLOYEE_COLS}

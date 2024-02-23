@@ -7,7 +7,7 @@ const WeeklyHolidayService = () => {
   const useFetchAllWeeklyHolidays = (query: string) => {
     function fetchAllHolidays(): Promise<fetchWeeklyHolidayApiResponse> {
       return axios
-        .get(`/weekly-holiday?query=${query}`)
+        .get(`/weekly-holiday/all?page=1&limit=100&query=${query}`)
         .then((res) => res.data);
     }
 

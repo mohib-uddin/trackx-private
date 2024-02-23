@@ -29,3 +29,16 @@ export type fetchAllLeaveApiResponse = {
   total: number;
   lastPage: number;
 };
+export type fetchSingleEmployeeLeaves = {
+  singleLeave: leaveType[];
+};
+
+export type singleLeaveType = {
+  data: leaveType & {
+    acceptLeaveBy: {
+      firstName: string;
+      lastName: string;
+    };
+    attachment?: string | null;
+  };
+};

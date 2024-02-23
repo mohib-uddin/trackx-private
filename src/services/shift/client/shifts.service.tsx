@@ -6,7 +6,9 @@ import { fetchAllShiftsApiResponse } from "@/_utils/types/shift";
 const ShiftService = () => {
   const useFetchAllShifts = (status: string) => {
     function fetchAllShifts(): Promise<fetchAllShiftsApiResponse> {
-      return axios.get(`/shift?status=${status}`).then((res) => res.data);
+      return axios
+        .get(`/shift/all?status=${status}&page=1&limit=100`)
+        .then((res) => res.data);
     }
 
     return useQuery({

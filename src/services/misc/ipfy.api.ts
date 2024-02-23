@@ -1,7 +1,6 @@
 import serverFetch from "@/_utils/config/server-fetch";
-import { employeeType } from "@/_utils/types/employees";
 
-export function fetchIPAddress(): Promise<employeeType> {
+export function fetchIPAddress(): Promise<{ ip: string }> {
   return serverFetch(
     `https://api.ipify.org?format=json`,
     ["ip-address"],

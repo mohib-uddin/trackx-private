@@ -65,17 +65,66 @@ export const ROUTES = [
     children: [
       {
         route: "/leaves/leave-management",
-        permissions: [
-          PERMISSIONS.CREATE_LEAVE_APPLICATION,
-          PERMISSIONS.READ_ALL_LEAVE_APPLICATION,
-          PERMISSIONS.READ_SINGLE_LEAVE_APPLICATION,
-        ],
+        permissions: [PERMISSIONS.READ_ALL_LEAVE_APPLICATION],
         title: "Leave Status",
       },
       {
         route: "/leaves/new",
         permissions: [PERMISSIONS.CREATE_LEAVE_APPLICATION],
         title: "New Leave",
+      },
+      {
+        route: "/leaves/my-leaves",
+        permissions: [PERMISSIONS.READ_SINGLE_LEAVE_APPLICATION],
+        title: "My Leaves",
+      },
+    ],
+  },
+  {
+    route: "/payroll",
+    icon: GrUserAdmin,
+    permissions: [PERMISSIONS.CREATE_PAYROLL, PERMISSIONS.READ_ALL_PAYROLL],
+    title: "Payroll",
+    children: [
+      {
+        route: "/payroll/new",
+        permissions: [PERMISSIONS.CREATE_PAYROLL],
+        title: "Calculate Payroll",
+      },
+      {
+        route: "/payroll/list",
+        permissions: [PERMISSIONS.READ_ALL_PAYROLL],
+        title: "Payslip List",
+      },
+    ],
+  },
+  {
+    route: "/configurations",
+    icon: GrUserAdmin,
+    permissions: [],
+    title: "Configurations",
+  },
+  {
+    route: "/roles",
+    icon: GrUserAdmin,
+    permissions: [PERMISSIONS.READ_ALL_ROLE],
+    title: "Roles",
+  },
+  {
+    route: "/announcements",
+    icon: GrUserAdmin,
+    permissions: [PERMISSIONS.CREATE_PAYROLL, PERMISSIONS.READ_ALL_PAYROLL],
+    title: "Announcements",
+    children: [
+      {
+        route: "/announcements/general",
+        permissions: [PERMISSIONS.READ_ALL_ANNOUNCEMENT],
+        title: "Announcements",
+      },
+      {
+        route: "/announcements/newsletter",
+        permissions: [PERMISSIONS.READ_ALL_ANNOUNCEMENT],
+        title: "News Letters",
       },
     ],
   },

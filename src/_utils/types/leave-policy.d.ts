@@ -11,4 +11,6 @@ export type leavePolicyType = {
   user: employeeType[];
 };
 
-export type fetchAllLeavePoliciesApiResponse = leavePolicyType[];
+export type fetchAllLeavePoliciesApiResponse = {
+  data: leavePolicyType[];
+};

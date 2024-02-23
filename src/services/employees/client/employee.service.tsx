@@ -37,7 +37,7 @@ const EmployeeService = () => {
   const useFetchAllEmploymentStatus = (status: boolean) => {
     function fetchAllEmployeeRequest(): Promise<fetchAllEmploymentStatusApiResponse> {
       return axios
-        .get(`/employment-status?status=${status}`)
+        .get(`/employment-status/all?status=${status}&page=1&limit=100`)
         .then((res) => res.data);
     }
 

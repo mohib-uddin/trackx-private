@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 
@@ -22,8 +23,8 @@ export default function LoginForm() {
   };
   useClientRouterPrefetch(["/dashboard"]);
   return (
-    <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex flex-col gap-4">
+    <form className="flex  w-full flex-col" onSubmit={handleSubmit(onSubmit)}>
+      <div className="flex flex-col gap-4 w-full">
         <BaseInput
           type="text"
           control={control}
@@ -45,23 +46,16 @@ export default function LoginForm() {
           }}
         />
       </div>
-      <div className="w-full flex justify-end">
-        <Link
-          href={"/forgot-password"}
-          className="text-[10px] text-darkBlue py-2.5 md:text-xs 2xl:text-sm"
-        >
-          Forgot Password?
-        </Link>
-      </div>
-      <BaseButton isLoading={isLoginDataPending} type="submit">
+      <Link className={"text-primary mt-3 text-sm"} href={"/forgot-password"}>
+        Forgot Password?
+      </Link>
+      <BaseButton
+        extraClass={"mt-6"}
+        isLoading={isLoginDataPending}
+        type="submit"
+      >
         {`Login`}
       </BaseButton>
-      <p className="flex items-center justify-center text-center gap-1 pt-5 text-xs  md:text-sm 2xl:text-base">
-        <span className="text-black2">New to Taskii?</span>
-        <Link href={"/signup"} className="text-darkBlue">
-          Register
-        </Link>
-      </p>
     </form>
   );
 }

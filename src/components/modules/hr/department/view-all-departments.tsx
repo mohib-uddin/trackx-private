@@ -11,6 +11,7 @@ import * as z from "zod";
 
 import { DESIGNATION_COLS } from "@/_utils/data/tables/designation";
 import { departmentType } from "@/_utils/types/department";
+import Breadcrumb from "@/components/common/breadcrumbs";
 import BaseInput from "@/components/common/form/base-input";
 import BaseSearch from "@/components/common/form/base-search";
 import BaseHeader from "@/components/common/header/base-header";
@@ -173,7 +174,7 @@ export default function ViewAllDepartments() {
   }, [searchQuery, page, isActive]);
   return (
     <div className={"flex flex-col justify-center"}>
-      <BaseHeader title={"View Departments"} />
+      <Breadcrumb pageName={"View Departments"} />
       <BaseTable
         cols={DESIGNATION_COLS}
         key={"designation"}

@@ -96,7 +96,6 @@ const formSchema = [
   z.object({
     joinDate: z.string(),
     leaveDate: z.string(),
-    employeeId: z.string(),
     employmentStatusId: z.number(),
     departmentId: z.number(),
     roleId: z.number(),
@@ -108,10 +107,10 @@ const formSchema = [
     designationId: z.number(),
     designationStartDate: z.string(),
     designationEndDate: z.string(),
-    salary: z.number(),
-    salaryStartDate: z.string(),
-    salaryEndDate: z.string(),
-    salaryComment: z.string(),
+    salary: z.number().optional(),
+    salaryStartDate: z.string().optional(),
+    salaryEndDate: z.string().optional(),
+    salaryComment: z.string().optional(),
   }),
 ];
 
@@ -119,13 +118,12 @@ export const mergedFormSchema = z.object({
   designationId: z.number(),
   designationStartDate: z.string(),
   designationEndDate: z.string(),
-  salary: z.number(),
-  salaryStartDate: z.string(),
-  salaryEndDate: z.string(),
-  salaryComment: z.string(),
+  salary: z.number().optional(),
+  salaryStartDate: z.string().optional(),
+  salaryEndDate: z.string().optional(),
+  salaryComment: z.string().optional(),
   joinDate: z.string(),
   leaveDate: z.string(),
-  employeeId: z.string(),
   employmentStatusId: z.number(),
   departmentId: z.number(),
   roleId: z.number(),
@@ -199,16 +197,6 @@ const AddEmployeeForm = () => {
     console.log(data, "data");
     handleCreateEmployee({
       ...data,
-      educations: [
-        {
-          degree: "BSCS",
-          fieldOfStudy: "CS",
-          institution: "SSUET",
-          result: "4 GPA",
-          studyStartDate: new Date().toISOString(),
-          studyEndDate: new Date().toISOString(),
-        },
-      ],
       skill: ["Developer"],
     });
   };
@@ -241,8 +229,8 @@ const AddEmployeeForm = () => {
           departmentData={departmentData}
           rolesData={rolesData}
           shiftData={shiftData}
-          employmentStatus={employmentStatus}
-          leavePolicies={leavePolicies}
+          employmentStatus={employmentStatus?.data}
+          leavePolicies={leavePolicies?.data}
           control={control}
           weeklyHoliday={weeklyHoliday}
           trigger={trigger}

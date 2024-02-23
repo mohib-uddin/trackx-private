@@ -9,4 +9,4 @@ export type shiftType = {
   updatedAt: string;
 };
 
-export type fetchAllShiftsApiResponse = shiftType[];
+export type fetchAllShiftsApiResponse = { data: shiftType[] };

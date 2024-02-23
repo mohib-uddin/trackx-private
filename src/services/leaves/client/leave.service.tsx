@@ -1,10 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
+import { revalidateServer } from "@/_utils/actions";
 import axios from "@/_utils/config/axios-instance";
 import { viewError } from "@/_utils/helpers";
 import { errorType, loginApiResponse } from "@/_utils/types";
-import { fetchAllLeaveApiResponse } from "@/_utils/types/leave";
+import {
+  fetchAllLeaveApiResponse,
+  fetchSingleEmployeeLeaves,
+} from "@/_utils/types/leave";
 import TokenService from "@/services/token/token.service";
 
 const LeaveManagementService = () => {
@@ -23,6 +27,18 @@ const LeaveManagementService = () => {
       retry: 0,
     });
   };
+  const useFetchSingleUserLeaves = (user: string) => {
+    function fetchAllDesignations(): Promise<fetchSingleEmployeeLeaves> {
+      let url = `/leave-application/${user}/leaveHistory`;
+      return axios.get(url).then((res) => res.data);
+    }
+
+    return useQuery({
+      queryFn: fetchAllDesignations,
+      queryKey: [`my-leaves`, user],
+      retry: 0,
+    });
+  };
   const useHandleUpdateLeave = () => {
     const queryClient = useQueryClient();
     function handleCreateDesignation(data: {
@@ -38,7 +54,9 @@ const LeaveManagementService = () => {
     }
     const onSuccess = async (response: loginApiResponse) => {
       toast.success("Leave Status Updated Successfully");
+      revalidateServer("leave-application");
       await queryClient.invalidateQueries({ queryKey: ["leave"] });
+      await queryClient.invalidateQueries({ queryKey: ["my-leaves"] });
     };
     const onError = (error: errorType) => {
       toast.error(viewError(error));
@@ -68,6 +86,7 @@ const LeaveManagementService = () => {
     const onSuccess = async (response: loginApiResponse) => {
       toast.success("Leave Submitted Successfully");
       await queryClient.invalidateQueries({ queryKey: ["leave"] });
+      await queryClient.invalidateQueries({ queryKey: ["my-leaves"] });
     };
     const onError = (error: errorType) => {
       toast.error(viewError(error));
@@ -85,6 +104,7 @@ const LeaveManagementService = () => {
     useFetchAllLeaves,
     useHandleUpdateLeave,
     useHandleCreateLeave,
+    useFetchSingleUserLeaves,
   };
 };
 export default LeaveManagementService;
