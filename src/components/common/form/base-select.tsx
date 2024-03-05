@@ -40,12 +40,11 @@ const BaseSelect = <T extends FieldValues>({
     control,
     rules,
   });
-  console.log(value, "val");
+  console.log(value, "sda");
   return (
     <>
       <Select
-        items={values || []}
-        value={value ?? ""}
+        items={values}
         isInvalid={invalid}
         label={label}
         classNames={{
@@ -62,6 +61,7 @@ const BaseSelect = <T extends FieldValues>({
         variant={variant}
         placeholder={placeholder}
         labelPlacement="inside"
+        defaultSelectedKeys={values ? [value] : undefined}
         className="w-full"
       >
         {(values || []).map((e) => (

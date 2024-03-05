@@ -13,4 +13,7 @@ export type leavePolicyType = {
 
 export type fetchAllLeavePoliciesApiResponse = {
   data: leavePolicyType[];
+  page: number;
+  total: number;
+  lastPage: number;
 };

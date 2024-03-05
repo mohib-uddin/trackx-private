@@ -7,7 +7,7 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/modal";
-import React from "react";
+import React, { useEffect } from "react";
 
 interface Props {
   name: string | React.ReactNode;
@@ -72,7 +72,14 @@ export default function BaseFormModal({
         </Button>
       )}
 
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal
+        classNames={{
+          backdrop:
+            "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20 z-[100px]",
+        }}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+      >
         <ModalContent>
           {(onClose) => (
             <form onSubmit={handleSubmit(action)}>
@@ -82,7 +89,7 @@ export default function BaseFormModal({
                 <Button color="danger" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                <Button type={"submit"} color="primary" onPress={onClose}>
+                <Button type={"submit"} color="primary">
                   {actionTitle ?? "Action"}
                 </Button>
               </ModalFooter>

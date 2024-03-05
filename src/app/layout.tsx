@@ -1,4 +1,5 @@
 import "@/styles/globals.css";
+import "react-datepicker/dist/react-datepicker.css";
 
 import type { Metadata } from "next";
 import { Lato } from "next/font/google";

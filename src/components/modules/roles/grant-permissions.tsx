@@ -3,10 +3,12 @@ import { Button } from "@nextui-org/button";
 import { Card, CardBody, CardHeader } from "@nextui-org/card";
 import { useState } from "react";
 
+import { capitalizeAfterSpace } from "@/_utils/helpers";
 import {
   fetchPermissionsByDepartmentType,
   rolePermissionsType,
 } from "@/_utils/types/permissions";
+import Breadcrumb from "@/components/common/breadcrumbs";
 import { Switch } from "@/components/common/switch/base-switch";
 import RolesService from "@/services/roles/client/roles.service";
 
@@ -32,23 +34,20 @@ const GrantPermissions = ({
       if (isIncluded) {
         return;
       } else {
-        const temp = [...allowedPermissions];
+        const temp = [...allowedPermissions, id];
         setAllowedPermissions(temp);
       }
-    }
-    if (!checked) {
-      const isIncluded = allowedPermissions.find((el) => el === id);
-      if (!isIncluded) {
-        return;
-      } else {
-        const temp = allowedPermissions.filter((el) => el !== id);
-        setAllowedPermissions(temp);
-      }
+    } else {
+      const temp = allowedPermissions.filter((el) => el !== id);
+      setAllowedPermissions(temp);
     }
   };
   return (
     <div className={"flex flex-col items-center justify-center gap-y-4"}>
-      <div className={"grid grid-cols-2 gap-4 w-full"}>
+      <h2 className={"font-[700] text-2xl"}>
+        {capitalizeAfterSpace(rolePermissions.data.name)}
+      </h2>
+      <div className={"grid grid-cols-1  md:grid-cols-2 gap-4 w-full"}>
         {permissions.data.map((el, index) => {
           return (
             <Card shadow={"sm"} radius={"sm"} key={index}>

@@ -1,3 +1,4 @@
+import Breadcrumb from "@/components/common/breadcrumbs";
 import GrantPermissions from "@/components/modules/roles/grant-permissions";
 import {
   fetchPermissionsByDepartment,
@@ -9,10 +10,13 @@ const SingleRolePage = async ({ params }: { params: { roleId: string } }) => {
   const permissions = await fetchPermissionsByDepartment();
   const rolePrivileges = await fetchRolePermissions(Number(roleId));
   return (
-    <GrantPermissions
-      permissions={permissions}
-      rolePermissions={rolePrivileges}
-    />
+    <>
+      <Breadcrumb pageName={"Manage Permissions"} />
+      <GrantPermissions
+        permissions={permissions}
+        rolePermissions={rolePrivileges}
+      />
+    </>
   );
 };
 export default SingleRolePage;

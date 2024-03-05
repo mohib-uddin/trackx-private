@@ -1,5 +1,3 @@
-import "react-datepicker/dist/react-datepicker.css";
-
 import { Input } from "@nextui-org/input";
 import React from "react";
 import DatePicker from "react-datepicker";

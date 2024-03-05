@@ -8,6 +8,7 @@ import { toast } from "sonner";
 
 import { clockInType } from "@/_utils/types/attendance";
 import BaseInput from "@/components/common/form/base-input";
+import BaseWebcam from "@/components/common/form/base-webcam";
 import BaseFormModal from "@/components/common/modal/base-form-modal";
 import AttendanceService from "@/services/attendance/client/attendance.service";
 import TokenService from "@/services/token/token.service";
@@ -25,10 +26,11 @@ const CheckInOut = ({ ip }: { ip: string | undefined }) => {
     useHandleClockInService();
   const { mutate: handleCheckOut, isPending: isHandleCheckoutPending } =
     useHandleClockOutService();
-  const { handleSubmit, control, reset } = useForm<clockInType>({
+  const { handleSubmit, control, reset, setValue } = useForm<clockInType>({
     defaultValues: {
       ip: ip ?? "",
       userId: user?.id ?? "",
+      file: null,
     },
   });
   const CheckInSubmit = (data: clockInType) => {
@@ -102,6 +104,7 @@ const CheckInOut = ({ ip }: { ip: string | undefined }) => {
                 required: "Comments is required",
               }}
             />
+            <BaseWebcam control={control} name={"file"} />
           </BaseFormModal>
         )}
 
@@ -129,6 +132,7 @@ const CheckInOut = ({ ip }: { ip: string | undefined }) => {
                 required: "Comments is required",
               }}
             />
+            <BaseWebcam control={control} name={"file"} />
           </BaseFormModal>
         )}
       </div>

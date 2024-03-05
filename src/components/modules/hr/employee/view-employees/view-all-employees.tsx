@@ -3,6 +3,7 @@ import { Chip } from "@nextui-org/chip";
 import { DeleteIcon, EditIcon, EyeIcon } from "@nextui-org/shared-icons";
 import { Tooltip } from "@nextui-org/tooltip";
 import { User } from "@nextui-org/user";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { Key, useMemo, useState } from "react";
 
@@ -71,12 +72,12 @@ export default function ViewAllEmployees() {
         return (
           <div className="relative flex items-center gap-2">
             <Tooltip content="Details">
-              <span
-                onClick={() => router.push(`/hr/employee/${user.id}`)}
+              <Link
+                href={`/hr/employee/${user.id}`}
                 className="text-lg text-default-400 cursor-pointer active:opacity-50"
               >
                 <EyeIcon />
-              </span>
+              </Link>
             </Tooltip>
             <Tooltip content="Edit user">
               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">

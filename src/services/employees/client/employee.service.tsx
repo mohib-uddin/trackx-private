@@ -1,7 +1,9 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { z } from "zod";
 
+import { revalidateServer } from "@/_utils/actions";
 import axios from "@/_utils/config/axios-instance";
 import { viewError } from "@/_utils/helpers";
 import { errorType, loginApiResponse } from "@/_utils/types";
@@ -10,7 +12,7 @@ import {
   fetchAllEmployeeApiResponse,
   fetchAllEmploymentStatusApiResponse,
 } from "@/_utils/types/employees";
-import TokenService from "@/services/token/token.service";
+import { educationFormSchema } from "@/components/modules/hr/employee/employee-profile/employee-skills-section";
 
 const EmployeeService = () => {
   const useFetchAllEmployees = (
@@ -32,6 +34,26 @@ const EmployeeService = () => {
       queryFn: fetchAllEmployeeRequest,
       queryKey: [`all-employees`, page, searchQuery],
       retry: 0,
+    });
+  };
+  const useFetchInfiniteEmployees = (status: boolean, searchQuery: string) => {
+    function fetchAllEmployees(
+      pageParam = 1,
+    ): Promise<fetchAllEmployeeApiResponse> {
+      let url = `/user/get-all?status=${status}&page=${pageParam}&limit=5`;
+      if (searchQuery != "") {
+        url += `&query=${searchQuery}`;
+      }
+      return axios.get(url).then((res) => res.data);
+    }
+
+    return useInfiniteQuery({
+      queryFn: ({ pageParam = 1 }) => fetchAllEmployees(pageParam),
+      queryKey: [`all-employees`, searchQuery],
+      retry: 0,
+      initialPageParam: 1,
+      getNextPageParam: (page) =>
+        page.page === page.lastPage ? undefined : page.page + 1,
     });
   };
   const useFetchAllEmploymentStatus = (status: boolean) => {
@@ -78,12 +100,35 @@ const EmployeeService = () => {
       retry: 0,
     });
   };
+  const useHandleAddEmployeeEducation = () => {
+    function handleCreateEmployee(
+      data: z.infer<typeof educationFormSchema>,
+    ): Promise<loginApiResponse> {
+      return axios.post("/education", data).then((res) => res.data);
+    }
+    const onSuccess = async (response: loginApiResponse) => {
+      toast.success("Education History Updated");
+      revalidateServer("employee");
+    };
+    const onError = (error: errorType) => {
+      toast.error(viewError(error));
+    };
+
+    return useMutation({
+      mutationFn: handleCreateEmployee,
+      onError,
+      onSuccess,
+      retry: 0,
+    });
+  };
 
   return {
     useFetchAllEmployees,
     useFetchAllEmploymentStatus,
     useFetchSingleEmployee,
     useHandleCreateNewEmployee,
+    useHandleAddEmployeeEducation,
+    useFetchInfiniteEmployees,
   };
 };
 export default EmployeeService;

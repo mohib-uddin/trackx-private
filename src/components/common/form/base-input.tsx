@@ -17,7 +17,14 @@ type Props<T extends FieldValues> = {
   size?: "sm" | "md" | "lg" | "xs";
   extraClass?: string;
   variant?: "underlined" | "flat" | "faded" | "bordered";
-  type: "text" | "password" | "number" | "email" | "date" | "time";
+  type:
+    | "text"
+    | "password"
+    | "number"
+    | "email"
+    | "date"
+    | "time"
+    | "datetime-local";
   label?: string;
 } & WithRequiredProperty<UseControllerProps<T>, "control">;
 function BaseInput<T extends FieldValues>({
@@ -50,7 +57,7 @@ function BaseInput<T extends FieldValues>({
         }}
         value={value}
         onChange={(e) => {
-          if (type === "date") {
+          if (type === "date" || type === "datetime-local") {
             onChange(new Date(e.target.value).toISOString());
           }
           if (type === "number") {

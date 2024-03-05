@@ -32,3 +32,8 @@ export function capitalizeAfterSpace(inputString: string) {
   // Add a period at the end
   return `${resultString}.`;
 }
+export const ALLOWED_FILE_TYPES = ["image/png", "image/jpeg"];
+
+export function validateFileType(file: File) {
+  return ALLOWED_FILE_TYPES.includes(file.type);
+}

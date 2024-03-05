@@ -51,6 +51,11 @@ export const ROUTES = [
         permissions: [PERMISSIONS.READ_ALL_DEPARTMENT],
         title: "Departments",
       },
+      {
+        route: "/hr/assets",
+        permissions: [PERMISSIONS.READ_ALL_ROLE],
+        title: "Assets",
+      },
     ],
   },
   {
@@ -125,6 +130,58 @@ export const ROUTES = [
         route: "/announcements/newsletter",
         permissions: [PERMISSIONS.READ_ALL_ANNOUNCEMENT],
         title: "News Letters",
+      },
+    ],
+  },
+  {
+    route: "/policies",
+    icon: GrUserAdmin,
+    permissions: [
+      PERMISSIONS.CREATE_LEAVE_APPLICATION,
+      PERMISSIONS.READ_ALL_LEAVE_APPLICATION,
+      PERMISSIONS.READ_SINGLE_LEAVE_APPLICATION,
+    ],
+    title: "Policies",
+    children: [
+      {
+        route: "/policies/policy-documents",
+        permissions: [PERMISSIONS.READ_ALL_LEAVE_POLICY],
+        title: "Policy Documents",
+      },
+      {
+        route: "/policies/leave-policy",
+        permissions: [PERMISSIONS.READ_ALL_LEAVE_POLICY],
+        title: "Leave Policy",
+      },
+      {
+        route: "/policies/payroll-policy",
+        permissions: [PERMISSIONS.READ_ALL_LEAVE_POLICY],
+        title: "Payroll Policy",
+      },
+      {
+        route: "/policies/holiday-policy",
+        permissions: [
+          PERMISSIONS.READ_ALL_PUBLIC_HOLIDAY,
+          PERMISSIONS.READ_ALL_WEEKLY_HOLIDAY,
+        ],
+        title: "Holidays",
+      },
+    ],
+  },
+  {
+    route: "/attendance",
+    icon: GrUserAdmin,
+    permissions: [
+      PERMISSIONS.READ_ALL_ATTENDANCE,
+      PERMISSIONS.CREATE_ATTENDANCE,
+      PERMISSIONS.READ_SINGLE_ATTENDANCE,
+    ],
+    title: "Attendance",
+    children: [
+      {
+        route: "/attendance/all",
+        permissions: [PERMISSIONS.READ_ALL_ATTENDANCE],
+        title: "View Attendance",
       },
     ],
   },

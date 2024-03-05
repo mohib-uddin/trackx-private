@@ -5,11 +5,9 @@ import { fetchSingleEmployee } from "@/services/employees/server/employee.api";
 
 const EmployeePage = async ({ params }: { params: { id: string } }) => {
   const { id } = params;
-
+  console.log(id, "uid");
   const employeeData = await fetchSingleEmployee(id);
-  if (!id || !employeeData) {
-    notFound();
-  }
+  console.log(employeeData, "asd");
   return <EmployeeProfile employeeData={employeeData} />;
 };
 export default EmployeePage;

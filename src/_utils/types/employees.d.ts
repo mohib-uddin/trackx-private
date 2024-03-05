@@ -1,3 +1,14 @@
+import { bankAccountType } from "@/_utils/types/bank";
+
+export type educationType = {
+  userId: number;
+  degree: string;
+  institution: string;
+  fieldOfStudy: string;
+  result: string;
+  startDate: string;
+  endDate: string;
+};
 export type employeeType = {
   id: string;
   firstName: string;
@@ -26,7 +37,8 @@ export type employeeType = {
   updatedAt: string;
   designationHistory: any[]; // You might want to define types for these arrays
   salaryHistory: any[]; // You might want to define types for these arrays
-  educations: any[]; // You might want to define types for these arrays
+  educations: educationType[]; // You might want to define types for these arrays
+  bank: bankAccountType[];
   employmentStatus: {
     id: number;
     name: string;
@@ -82,6 +94,8 @@ export type employeeType = {
 
 export type fetchAllEmployeeApiResponse = {
   data: employeeType[];
+  page: number;
+  lastPage: number;
 };
 
 export type employeeFormType = {

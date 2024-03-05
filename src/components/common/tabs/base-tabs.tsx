@@ -6,11 +6,24 @@ interface Props {
     title: string;
     children: React.ReactNode;
   }[];
+  color?:
+    | "default"
+    | "primary"
+    | "secondary"
+    | "success"
+    | "warning"
+    | "danger"
+    | undefined;
+  variant?: "solid" | "light" | "underlined" | "bordered" | undefined;
 }
-export default function BaseTabs({ tabs }: Props) {
+export default function BaseTabs({ tabs, color, variant }: Props) {
   return (
     <div className="flex w-full flex-col">
-      <Tabs aria-label="Options">
+      <Tabs
+        variant={variant ?? "solid"}
+        color={color ?? "default"}
+        aria-label="Options"
+      >
         {tabs.map((el, index) => (
           <Tab key={index} title={el.title}>
             {el.children}

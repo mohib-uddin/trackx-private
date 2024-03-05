@@ -11,4 +11,10 @@ export type weeklyHolidayType = {
   user: employeeType[];
 };
 
-export type fetchWeeklyHolidayApiResponse = { data: weeklyHolidayType[] };
+export type fetchWeeklyHolidayApiResponse = {
+  data: weeklyHolidayType[];
+  message: string;
+  lastPage: number;
+  page: number;
+  total: number;
+};

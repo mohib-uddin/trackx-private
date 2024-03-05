@@ -24,3 +24,29 @@
   background: linear-gradient(to right, #021B79, #0575E6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
 }
+
+.react-datepicker{
+  font-family: "Lato", sans-serif !important;
+  border: none;
+  outline: none;
+}
+.react-datepicker__header{
+  color:white;
+  background: #006FEE;
+}
+.react-datepicker__current-month{
+  color: white;
+}
+.react-datepicker__day-name{
+  color: white;
+
+}
+.react-datepicker__day{
+}
+.react-datepicker__day--keyboard-selected{
+  color:white;
+  background: #006FEE;
+}
+.react-datepicker__day--outside-month{
+  color:#A1A1AA;
+}

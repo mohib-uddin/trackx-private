@@ -5,7 +5,8 @@ import axios from "@/_utils/config/axios-instance";
 import { viewError } from "@/_utils/helpers";
 import { errorType, loginApiResponse } from "@/_utils/types";
 import { checkInStatusType, clockInType } from "@/_utils/types/attendance";
-import { fetchAllDepartmentsApiResponse } from "@/_utils/types/department";
+import { fetchAllDesignationApiResponse } from "@/_utils/types/designation";
+import { manualAttendanceFormType } from "@/components/modules/attendance/all-attendance";
 
 const AttendanceService = () => {
   const useFetchLastAttendance = (id: string | undefined) => {
@@ -67,11 +68,50 @@ const AttendanceService = () => {
       retry: 0,
     });
   };
+  const useFetchAllAttendance = (
+    page: number,
+    startDate: string,
+    endDate: string,
+  ) => {
+    function fetchAllAttendance(): Promise<fetchAllDesignationApiResponse> {
+      let url = `/attendance?page=${page}&limit=10&startDate=${startDate}&endDate=${endDate}`;
+      return axios.get(url).then((res) => res.data);
+    }
+
+    return useQuery({
+      queryFn: fetchAllAttendance,
+      queryKey: [`attendance`, startDate, page, endDate],
+      retry: 0,
+    });
+  };
+  const useHandleCreateManualAttendance = () => {
+    const queryClient = useQueryClient();
+    function handleClockOut(data: manualAttendanceFormType): Promise<any> {
+      return axios.post("/attendance/manual", data).then((res) => res.data);
+    }
+    const onSuccess = async () => {
+      toast.success("Attendance Created Successfully");
+      await queryClient.invalidateQueries({ queryKey: ["last-attendance"] });
+      await queryClient.invalidateQueries({ queryKey: ["attendance"] });
+    };
+    const onError = (error: errorType) => {
+      toast.error(viewError(error));
+    };
+
+    return useMutation({
+      mutationFn: handleClockOut,
+      onError,
+      onSuccess,
+      retry: 0,
+    });
+  };
 
   return {
     useFetchLastAttendance,
     useHandleClockInService,
     useHandleClockOutService,
+    useHandleCreateManualAttendance,
+    useFetchAllAttendance,
   };
 };
 export default AttendanceService;
