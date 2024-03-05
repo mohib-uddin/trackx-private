@@ -166,7 +166,7 @@ const InvoicePDF = ({ invoice }: invoiceProps) => {
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
-          <Image style={styles.image} src={Logo} />
+          {/*<Image style={styles.image} src={Logo} />*/}
         </View>
 
         <View style={styles.customerSection}>

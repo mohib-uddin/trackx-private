@@ -42,7 +42,7 @@ export const getSidebarItems = (permissions: PERMISSIONS[]) => {
         if (childrenFlag) {
           item?.children?.push({
             route: innerEl.route,
-            title: innerEl.title,
+            title: innerEl.title ?? "",
           });
         }
       });

@@ -11,7 +11,6 @@ import {
 import { useSnapshot } from "valtio";
 import * as z from "zod";
 
-import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from "@/_utils/constants";
 import { EMPLOYEE_FORM_STEPPERS } from "@/_utils/enums";
 import { employeeFormType } from "@/_utils/types/employees";
 import FormStepperPanel from "@/components/common/form/form-stepper-panel";
@@ -184,11 +183,11 @@ const AddEmployeeForm = () => {
   const { useFetchAllLeavePolicies } = LeavePolicyService();
   const { data: designationData } = useFetchAllDesignations(1, "", true);
   const { data: departmentData } = useFetchAllDepartments("", 1, true);
-  const { data: rolesData } = useFetchAllRoles("all");
+  const { data: rolesData } = useFetchAllRoles("all", 1);
   const { data: shiftData } = useFetchAllShifts("true");
   const { data: employmentStatus } = useFetchAllEmploymentStatus(true);
-  const { data: leavePolicies } = useFetchAllLeavePolicies("all");
-  const { data: weeklyHoliday } = useFetchAllWeeklyHolidays("all");
+  const { data: leavePolicies } = useFetchAllLeavePolicies(1, "all");
+  const { data: weeklyHoliday } = useFetchAllWeeklyHolidays("all", 1);
   const {
     mutate: handleCreateEmployee,
     isPending: isHandleCreateEmployeePending,

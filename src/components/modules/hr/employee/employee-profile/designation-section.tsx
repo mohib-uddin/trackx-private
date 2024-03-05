@@ -67,14 +67,6 @@ const EmployeeDesignationSection = ({
           action={handleAddEducation}
         >
           <div>
-            <BaseSelect
-              values={designationData?.data}
-              placeholder={"Select Designation"}
-              label={"Designation"}
-              variant={"underlined"}
-              name={"degree"}
-              control={control}
-            />
             <BaseInput
               placeholder={"Enter Start Date"}
               name={"startDate"}
@@ -85,12 +77,6 @@ const EmployeeDesignationSection = ({
               placeholder={"Enter End Date"}
               name={"endDate"}
               type={"date"}
-              control={control}
-            />
-            <BaseTextarea
-              placeholder={"Comments"}
-              name={"comment"}
-              type={"text"}
               control={control}
             />
           </div>
