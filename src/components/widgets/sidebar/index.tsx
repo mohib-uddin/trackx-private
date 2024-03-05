@@ -112,7 +112,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, items }: SidebarProps) => {
             <ul className="mb-6 flex flex-col gap-1.5">
               {items.map((el, index) => {
                 return (
-                  <React.Fragment key-={index}>
+                  <React.Fragment key={index}>
                     {el.children && el.children.length > 0 ? (
                       <SidebarLinkGroup
                         activeCondition={
