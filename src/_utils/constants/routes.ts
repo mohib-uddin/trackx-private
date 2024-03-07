@@ -59,6 +59,23 @@ export const ROUTES = [
     ],
   },
   {
+    route: "/organization",
+    icon: GrUserAdmin,
+    permissions: [
+      PERMISSIONS.CREATE_LEAVE_APPLICATION,
+      PERMISSIONS.READ_ALL_LEAVE_APPLICATION,
+      PERMISSIONS.READ_SINGLE_LEAVE_APPLICATION,
+    ],
+    title: "Organization",
+    children: [
+      {
+        route: "/organization/hierarchy",
+        permissions: [PERMISSIONS.READ_ALL_LEAVE_APPLICATION],
+        title: "Employee Hierarchy",
+      },
+    ],
+  },
+  {
     route: "/leaves",
     icon: GrUserAdmin,
     permissions: [

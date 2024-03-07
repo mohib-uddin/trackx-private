@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@nextui-org/button";
 import { Chip } from "@nextui-org/chip";
 import { DeleteIcon, EditIcon, EyeIcon } from "@nextui-org/shared-icons";
 import { Tooltip } from "@nextui-org/tooltip";
@@ -6,6 +7,7 @@ import { User } from "@nextui-org/user";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { Key, useMemo, useState } from "react";
+import { CSVLink } from "react-csv";
 
 import {
   EMPLOYEE_COLS,
@@ -14,7 +16,6 @@ import {
 import { employeeType } from "@/_utils/types/employees";
 import Breadcrumb from "@/components/common/breadcrumbs";
 import BaseSearch from "@/components/common/form/base-search";
-import BaseHeader from "@/components/common/header/base-header";
 import BaseTable from "@/components/common/tables/base-table";
 import EmployeeService from "@/services/employees/client/employee.service";
 
@@ -102,15 +103,25 @@ export default function ViewAllEmployees() {
       : 0;
   }, [employeeData?.data.length, limit, searchQuery]);
 
+  const csvFields = [["firstName", "lastName"]];
+
   const loadingState = isEmployeeDataLoading ? "loading" : "idle";
   const topContent = React.useMemo(() => {
     return (
-      <BaseSearch
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        setPage={setPage}
-        placeholder={"Search"}
-      />
+      <div className={"flex flex-wrap justify-between items-center"}>
+        <div className={"w-3/4"}>
+          <BaseSearch
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            setPage={setPage}
+            placeholder={"Search"}
+          />
+        </div>
+
+        <Button color={"primary"}>
+          <CSVLink data={csvFields}>Sample CSV</CSVLink>
+        </Button>
+      </div>
     );
   }, [searchQuery, page]);
   return (
