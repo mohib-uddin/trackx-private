@@ -1,64 +1,39 @@
 "use client";
-import { Avatar, AvatarGroup, AvatarIcon } from "@nextui-org/avatar";
-import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
+
+import { Avatar } from "@nextui-org/avatar";
 import Image from "next/image";
-import Link from "next/link";
 
 import { capitalizeAfterSpace } from "@/_utils/helpers";
+import { getMedia } from "@/_utils/helpers/get-media";
+import { userPermissionsApiResponse } from "@/_utils/types";
 import { employeeType } from "@/_utils/types/employees";
 import Breadcrumb from "@/components/common/breadcrumbs";
 import BaseTabs from "@/components/common/tabs/base-tabs";
 import EmployeeDesignationSection from "@/components/modules/hr/employee/employee-profile/designation-section";
+import EmployeeAssets from "@/components/modules/hr/employee/employee-profile/employee-assets";
 import EmployeeBanks from "@/components/modules/hr/employee/employee-profile/employee-banks-section";
 import EmployeeInformationSection from "@/components/modules/hr/employee/employee-profile/employee-information-section";
 import EmployeeSkillsSection from "@/components/modules/hr/employee/employee-profile/employee-skills-section";
+import EmployeeService from "@/services/employees/client/employee.service";
 
 import Cover from "../../../../../../public/images/cover/cover-01.png";
-import User from "../../../../../../public/images/user/user-06.png";
 
-// const EmployeeProfile = ({ employeeData }: { employeeData: employeeType }) => {
-//   console.log(employeeData);
-//   const tabs = [
-//     {
-//       title: "Information",
-//       children: <EmployeeInformationSection employeeData={employeeData} />,
-//     },
-//     {
-//       title: "Skills",
-//       children: <EmployeeSkillsSection employeeData={employeeData} />,
-//     },
-//   ];
-//
-//   return (
-//     <div>
-//       <Card className={"bg-primary text-white w-1/2"}>
-//         <CardBody
-//           className={"h-[20vh] flex flex-col justify-center items-center"}
-//         >
-//           <Avatar
-//             size={"lg"}
-//             isBordered={true}
-//             src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
-//           ></Avatar>
-//           <h2
-//             className={"mt-2 font-[700] text-xl"}
-//           >{`${(employeeData?.firstName + " " + employeeData?.lastName).toUpperCase()}`}</h2>
-//           <p className={"text-gray-300"}>Associate Software Engineer</p>
-//         </CardBody>
-//       </Card>
-//       <div className={"mt-6"}>
-//         <BaseTabs tabs={tabs} />
-//       </div>
-//     </div>
-//   );
-// };
-// export default EmployeeProfile;
-
-const EmployeeProfile = ({ employeeData }: { employeeData: employeeType }) => {
+const EmployeeProfile = ({
+  employeeData,
+  permissions,
+}: {
+  employeeData: employeeType;
+  permissions: userPermissionsApiResponse;
+}) => {
   const tabs = [
     {
       title: "Information",
-      children: <EmployeeInformationSection employeeData={employeeData} />,
+      children: (
+        <EmployeeInformationSection
+          permissions={permissions}
+          employeeData={employeeData}
+        />
+      ),
     },
     {
       title: "Skills",
@@ -66,13 +41,24 @@ const EmployeeProfile = ({ employeeData }: { employeeData: employeeType }) => {
     },
     {
       title: "Designation History",
-      children: <EmployeeDesignationSection employeeData={employeeData} />,
+      children: (
+        <EmployeeDesignationSection
+          permissions={permissions}
+          employeeData={employeeData}
+        />
+      ),
     },
     {
-      title: "Bank",
+      title: "Banks",
       children: <EmployeeBanks employeeData={employeeData} />,
     },
+    {
+      title: "Assets",
+      children: <EmployeeAssets employeeData={employeeData} />,
+    },
   ];
+  const { useHandleUpdateEmployee } = EmployeeService();
+  const { mutate } = useHandleUpdateEmployee(Number(employeeData.id));
   return (
     <div className="mx-auto max-w-242.5">
       <Breadcrumb pageName="Profile" />
@@ -93,17 +79,38 @@ const EmployeeProfile = ({ employeeData }: { employeeData: employeeType }) => {
         </div>
         <div className="px-4 pb-6 text-center lg:pb-8 xl:pb-11.5">
           <div className="relative z-30 mx-auto -mt-22 h-30 w-full max-w-30 rounded-full bg-white/20 p-1 backdrop-blur sm:h-44 sm:max-w-44 sm:p-3">
-            <div className="relative drop-shadow-2">
-              <Image
-                src={User}
-                width={160}
-                height={160}
-                style={{
-                  width: "auto",
-                  height: "auto",
-                }}
-                alt="profile"
-              />
+            <div className="relative flex flex-col justify-center items-center drop-shadow-2">
+              <Avatar
+                name={capitalizeAfterSpace(
+                  `${employeeData.firstName} ${employeeData.lastName}`,
+                )}
+                src={
+                  employeeData.image
+                    ? getMedia(
+                        `/user/${employeeData.id}/profile-image/${employeeData.image}`,
+                      )
+                    : undefined
+                }
+                className={"w-[160px] h-[160px]"}
+              ></Avatar>
+              {/*<Image*/}
+              {/*  src={*/}
+              {/*    employeeData.image*/}
+              {/*      ? getMedia(*/}
+              {/*          `/user/${employeeData.id}/profile-image/${employeeData.image}`,*/}
+              {/*        )*/}
+              {/*      : User*/}
+              {/*  }*/}
+              {/*  width={160}*/}
+              {/*  height={160}*/}
+              {/*  style={{*/}
+              {/*    width: "auto",*/}
+              {/*    height: "auto",*/}
+              {/*  }}*/}
+              {/*  alt="profile"*/}
+              {/*  objectFit={"contain"}*/}
+              {/*  className={"rounded-full"}*/}
+              {/*/>*/}
               <label
                 htmlFor="profile"
                 className="absolute bottom-0 right-0 flex h-8.5 w-8.5 cursor-pointer items-center justify-center rounded-full bg-primary text-white hover:bg-opacity-90 sm:bottom-2 sm:right-2"
@@ -130,6 +137,18 @@ const EmployeeProfile = ({ employeeData }: { employeeData: employeeType }) => {
                   />
                 </svg>
                 <input
+                  onChange={(event) => {
+                    const formData = new FormData();
+                    if (
+                      event &&
+                      event.target &&
+                      event.target.files &&
+                      event.target.files.length > 0
+                    ) {
+                      formData.append("file", event?.target?.files[0]);
+                      mutate(formData);
+                    }
+                  }}
                   type="file"
                   name="profile"
                   id="profile"
@@ -144,7 +163,9 @@ const EmployeeProfile = ({ employeeData }: { employeeData: employeeType }) => {
                 employeeData?.firstName + " " + employeeData?.lastName,
               )}
             </h3>
-            <p className="font-medium">Ui/Ux Designer</p>
+            <p className="font-medium">
+              {employeeData?.designationHistory[0]?.designation?.name}
+            </p>
             <div className={"mt-6"}>
               <BaseTabs color={"primary"} variant={"underlined"} tabs={tabs} />
             </div>

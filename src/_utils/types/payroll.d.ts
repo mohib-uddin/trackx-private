@@ -73,3 +73,10 @@ export type makePaymentFormType = {
   salaryYear: string;
   id: string;
 };
+
+export type earningType = {
+  name: string;
+  earningType: string;
+  calculationType: CALCULATION_TYPE;
+  amount: number;
+};

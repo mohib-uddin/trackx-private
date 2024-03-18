@@ -1,7 +1,6 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EditIcon, EyeIcon } from "@nextui-org/shared-icons";
-import { Switch } from "@nextui-org/switch";
 import { Tooltip } from "@nextui-org/tooltip";
 import { useRouter } from "next/navigation";
 import React, { Key, useState } from "react";
@@ -14,9 +13,9 @@ import { departmentType } from "@/_utils/types/department";
 import Breadcrumb from "@/components/common/breadcrumbs";
 import BaseInput from "@/components/common/form/base-input";
 import BaseSearch from "@/components/common/form/base-search";
-import BaseHeader from "@/components/common/header/base-header";
 import BaseFormModal from "@/components/common/modal/base-form-modal";
 import DeleteConfirmationModal from "@/components/common/modal/delete-confirmation-modal";
+import { Switch } from "@/components/common/switch/base-switch";
 import BaseTable from "@/components/common/tables/base-table";
 import DepartmentService from "@/services/department/client/department.service";
 
@@ -80,6 +79,9 @@ export default function ViewAllDepartments() {
         case "createdAt":
           return <Moment format={"YYYY/MM/DD"} date={department.createdAt} />;
         case "actions":
+          if (!department.status) {
+            return <div></div>;
+          }
           return (
             <div className="relative flex items-center gap-2">
               <Tooltip content="Details">
@@ -136,7 +138,7 @@ export default function ViewAllDepartments() {
   };
   const topContent = React.useMemo(() => {
     return (
-      <div className={"flex w-full justify-between"}>
+      <div className={"flex w-full items-center justify-between"}>
         <div className={"w-3/4"}>
           <BaseSearch
             searchQuery={searchQuery}
@@ -145,14 +147,9 @@ export default function ViewAllDepartments() {
             placeholder={"Search"}
           />
         </div>
-        <div>
-          <Switch
-            isSelected={isActive}
-            defaultSelected
-            onValueChange={setIsActive}
-          >
-            Is Active
-          </Switch>
+        <div className={"flex gap-4 items-center"}>
+          <p>Is Active?</p>
+          <Switch defaultChecked={true} onCheckedChange={setIsActive} />
         </div>
         <BaseFormModal
           handleSubmit={handleSubmit}

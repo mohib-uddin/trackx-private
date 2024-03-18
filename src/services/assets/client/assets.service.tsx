@@ -208,7 +208,7 @@ const AssetsService = () => {
     function fetchAllEmployees(
       pageParam = 1,
     ): Promise<fetchAllAssetApiResponse> {
-      let url = `/asset/all?&page=${pageParam}&limit=10`;
+      let url = `/asset/all?&page=${pageParam}&limit=50`;
       return axios.get(url).then((res) => res.data);
     }
 

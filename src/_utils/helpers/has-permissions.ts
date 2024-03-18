@@ -24,12 +24,14 @@ export const getSidebarItems = (permissions: PERMISSIONS[]) => {
         item = {
           route: el.route,
           title: el.title,
+          icon: el.icon,
           children: [],
         };
       } else {
         item = {
           route: el.route,
           title: el.title,
+          icon: el.icon,
         };
       }
       el?.children?.forEach((innerEl) => {

@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
+import { revalidateServer } from "@/_utils/actions";
 import axios from "@/_utils/config/axios-instance";
 import { viewError } from "@/_utils/helpers";
 import { errorType, loginApiResponse } from "@/_utils/types";
@@ -18,6 +19,7 @@ export default function AuthServices() {
       TokenService.setUser(response);
       TokenService.setTokenRetries(5);
       TokenService.saveLocalAccessToken(response.token);
+      revalidateServer("permissions");
       toast.success("Login Successful");
       router.push("/dashboard");
     };

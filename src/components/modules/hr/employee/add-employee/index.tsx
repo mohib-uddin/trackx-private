@@ -1,5 +1,7 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Card, CardBody } from "@nextui-org/card";
+import { useState } from "react";
 import {
   Control,
   FieldPath,
@@ -8,13 +10,13 @@ import {
   TriggerConfig,
   useForm,
 } from "react-hook-form";
+import { IoMdArrowRoundBack } from "react-icons/io";
 import { useSnapshot } from "valtio";
 import * as z from "zod";
 
 import { EMPLOYEE_FORM_STEPPERS } from "@/_utils/enums";
 import { employeeFormType } from "@/_utils/types/employees";
 import FormStepperPanel from "@/components/common/form/form-stepper-panel";
-import BaseHeader from "@/components/common/header/base-header";
 import AddressInformationForm from "@/components/modules/hr/employee/add-employee/address-information";
 import DesignationInformation from "@/components/modules/hr/employee/add-employee/designation-information";
 import EmployeeInformation from "@/components/modules/hr/employee/add-employee/employee-information";
@@ -81,6 +83,7 @@ const formSchema = [
     //     (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
     //     ".jpg, .jpeg and, .png files are accepted.",
     //   ),
+    file: z.any(),
   }),
   z.object({
     street: z.string(),
@@ -140,6 +143,7 @@ export const mergedFormSchema = z.object({
   userName: z.string().min(1, "Username Is Required"),
   password: z.string().min(8, "Password Must Atleast Be Of 8 Characters"),
   email: z.string().email("Invalid Email"),
+  file: z.any(),
   // file: z
   //   .any()
   //   .refine((files) => files?.length == 1, "Image is required.")
@@ -188,61 +192,97 @@ const AddEmployeeForm = () => {
   const { data: employmentStatus } = useFetchAllEmploymentStatus(true);
   const { data: leavePolicies } = useFetchAllLeavePolicies(1, "all");
   const { data: weeklyHoliday } = useFetchAllWeeklyHolidays("all", 1);
+  const [skills, setSkills] = useState<string[]>([]);
   const {
     mutate: handleCreateEmployee,
     isPending: isHandleCreateEmployeePending,
   } = useHandleCreateNewEmployee();
   const onSubmit = (data: any) => {
-    console.log(data, "data");
-    handleCreateEmployee({
-      ...data,
-      skill: ["Developer"],
+    const formData = new FormData();
+    const keys = Object.keys(data);
+    keys.forEach((el) => {
+      if (el.includes("designation") || el.includes("salary")) {
+      } else if (el == "file") {
+        formData.append(el, data[el][0]);
+      } else if (el === "skill") {
+        skills.forEach((el, index) => {
+          formData.append(`skill[${index}]`, el);
+        });
+      } else {
+        formData.append(el, data[el]);
+      }
     });
+    formData.append("designationHistory[designationId]", data.designationId);
+    formData.append("designationHistory[startDate]", data.designationStartDate);
+    formData.append("designationHistory[endDate]", data.designationEndDate);
+    formData.append("salaryHistory[startDate]", data.salaryStartDate);
+    formData.append("salaryHistory[endDate]", data.salaryEndDate);
+    formData.append("salaryHistory[comment]", data.salaryComment);
+    formData.append("salaryHistory[salary]", data.salary);
+
+    handleCreateEmployee(formData);
   };
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
       className={"w-full md:w-[80%] xl:w-[60%] m-auto"}
     >
-      <BaseHeader title={"Add New Employee"} />
-      <FormStepperPanel currentStep={snap.step} steps={steps} />
-      {snap.step === EMPLOYEE_FORM_STEPPERS.USER && (
-        <UserInformationForm
-          watch={watch}
-          trigger={trigger}
-          control={control}
-        />
-      )}
-      {snap.step === EMPLOYEE_FORM_STEPPERS.ADDRESS && (
-        <AddressInformationForm trigger={trigger} control={control} />
-      )}
-      {snap.step === EMPLOYEE_FORM_STEPPERS.QUALIFICATION && (
-        <QualificationForm
-          register={register}
-          trigger={trigger}
-          control={control}
-        />
-      )}
-      {snap.step === EMPLOYEE_FORM_STEPPERS.EMPLOYEE && (
-        <EmployeeInformation
-          departmentData={departmentData}
-          rolesData={rolesData}
-          shiftData={shiftData}
-          employmentStatus={employmentStatus?.data}
-          leavePolicies={leavePolicies?.data}
-          control={control}
-          weeklyHoliday={weeklyHoliday}
-          trigger={trigger}
-        />
-      )}
-      {snap.step === EMPLOYEE_FORM_STEPPERS.DESIGNATION && (
-        <DesignationInformation
-          designationData={designationData}
-          control={control}
-          trigger={trigger}
-          handleSubmit={handleSubmit}
-        />
-      )}
+      <Card>
+        <CardBody className={"p-8"}>
+          <div className={"flex  gap-4"}>
+            {snap.step > EMPLOYEE_FORM_STEPPERS.USER && (
+              <IoMdArrowRoundBack
+                className={"mt-2 cursor-pointer"}
+                size={20}
+                onClick={() => (addEmployeeState.step -= 1)}
+              />
+            )}
+            <h3 className="mt-0 main-page-heading">{"Add A Employee"}</h3>
+          </div>
+
+          <FormStepperPanel currentStep={snap.step} steps={steps} />
+          {snap.step === EMPLOYEE_FORM_STEPPERS.USER && (
+            <UserInformationForm
+              watch={watch}
+              trigger={trigger}
+              control={control}
+            />
+          )}
+          {snap.step === EMPLOYEE_FORM_STEPPERS.ADDRESS && (
+            <AddressInformationForm trigger={trigger} control={control} />
+          )}
+          {snap.step === EMPLOYEE_FORM_STEPPERS.QUALIFICATION && (
+            <QualificationForm
+              register={register}
+              trigger={trigger}
+              control={control}
+              skills={skills}
+              setSkills={setSkills}
+            />
+          )}
+          {snap.step === EMPLOYEE_FORM_STEPPERS.EMPLOYEE && (
+            <EmployeeInformation
+              departmentData={departmentData}
+              rolesData={rolesData}
+              shiftData={shiftData}
+              employmentStatus={employmentStatus?.data}
+              leavePolicies={leavePolicies?.data}
+              control={control}
+              weeklyHoliday={weeklyHoliday}
+              trigger={trigger}
+            />
+          )}
+          {snap.step === EMPLOYEE_FORM_STEPPERS.DESIGNATION && (
+            <DesignationInformation
+              designationData={designationData}
+              control={control}
+              trigger={trigger}
+              handleSubmit={handleSubmit}
+            />
+          )}
+        </CardBody>
+      </Card>
     </form>
   );
 };

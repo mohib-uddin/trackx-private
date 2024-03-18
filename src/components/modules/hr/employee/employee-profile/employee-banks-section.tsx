@@ -60,7 +60,7 @@ const EmployeeBanks = ({ employeeData }: { employeeData: employeeType }) => {
     mutate: handleAddBankDetails,
     isPending: isHandleAddBankDetailsPending,
   } = useHandleAddBankDetails();
-
+  console.log(employeeData.bank, "ba");
   const {
     mutate: handleDeleteBankDetails,
     isPending: isHandleDeleteBankDetailsPending,
@@ -132,7 +132,7 @@ const EmployeeBanks = ({ employeeData }: { employeeData: employeeType }) => {
         </BaseFormModal>
       </div>
       <div className={"flex flex-wrap w-full  gap-4"}>
-        {employeeData.bank.map((el, index) => (
+        {employeeData?.bank?.map((el, index) => (
           <Card key={index} className="bg-[#CCE3FD] w-full max-w-[400px]">
             <CardHeader className="flex items-center justify-between">
               <p className="text-lg text-left font-bold">{el.bankName}</p>
@@ -210,19 +210,19 @@ const EmployeeBanks = ({ employeeData }: { employeeData: employeeType }) => {
             </CardHeader>
             <CardBody className={"w-full"}>
               <p>
-                <span className={"font-bold"}>Account No:</span> {el.accNo}
+                <span className={"font-bold"}>Account No:</span> {el?.accNo}
               </p>
               <p>
                 <span className={"font-bold"}>Account Title:</span>{" "}
-                {el.accTitle}
+                {el?.accTitle}
               </p>
               <p>
                 <span className={"font-bold"}>Branch Name:</span>{" "}
-                {el.branchName}
+                {el?.branchName}
               </p>
               <p>
                 <span className={"font-bold"}>Branch Code:</span>
-                {el.branchCode}
+                {el?.branchCode}
               </p>
             </CardBody>
           </Card>

@@ -62,34 +62,40 @@ const AssetAutocomplete = <T extends FieldValues>({
   }
 
   return (
-    <Autocomplete
-      scrollRef={scrollerRef}
-      variant={variant}
-      label={label}
-      placeholder={placeholder}
-      selectedKey={value}
-      multiple={isMultiple}
-      labelPlacement="inside"
-      isLoading={isAssetLoading}
-      defaultItems={assets}
-      className="max-w-xs"
-      onSelectionChange={(e) => {
-        onChange(e);
-      }}
-    >
-      {(asset) => (
-        <AutocompleteItem key={asset.id} textValue={asset.name}>
-          <div className="flex gap-2 items-center">
-            <div className="flex flex-col">
-              <span className="text-small">{asset.name}</span>
-              <span className="text-tiny text-default-400">
-                {asset.description}
-              </span>
+    <div className={"flex w-full flex-wrap md:flex-nowrap gap-4"}>
+      <Autocomplete
+        scrollRef={scrollerRef}
+        variant={variant}
+        label={label}
+        placeholder={placeholder}
+        selectedKey={value}
+        multiple={isMultiple}
+        labelPlacement="inside"
+        isLoading={isAssetLoading}
+        defaultItems={assets}
+        onSelectionChange={(e) => {
+          onChange(e);
+        }}
+        classNames={{
+          base: "",
+          listboxWrapper: "max-h-[320px]",
+          selectorButton: "text-default-500",
+        }}
+      >
+        {(asset) => (
+          <AutocompleteItem key={asset.id} textValue={asset.name}>
+            <div className="flex gap-2 items-center">
+              <div className="flex flex-col">
+                <span className="text-small">{asset.name}</span>
+                <span className="text-tiny text-default-400">
+                  {asset.description}
+                </span>
+              </div>
             </div>
-          </div>
-        </AutocompleteItem>
-      )}
-    </Autocomplete>
+          </AutocompleteItem>
+        )}
+      </Autocomplete>
+    </div>
   );
 };
 export default AssetAutocomplete;

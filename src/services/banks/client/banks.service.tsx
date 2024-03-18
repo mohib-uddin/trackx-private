@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import { revalidateServer } from "@/_utils/actions";
 import axios from "@/_utils/config/axios-instance";
 import { viewError } from "@/_utils/helpers";
 import { errorType, loginApiResponse } from "@/_utils/types";
@@ -33,6 +34,7 @@ const BankService = () => {
     }
     const onSuccess = async (response: loginApiResponse) => {
       toast.success("Bank Added  Successfully");
+      revalidateServer("employee");
       await queryClient.invalidateQueries({ queryKey: ["bank"] });
     };
     const onError = (error: errorType) => {
@@ -54,6 +56,7 @@ const BankService = () => {
     const onSuccess = async (response: loginApiResponse) => {
       toast.success("Bank Details Deleted Successfully");
       await queryClient.invalidateQueries({ queryKey: ["bank"] });
+      revalidateServer("employee");
     };
     const onError = (error: errorType) => {
       toast.error(viewError(error));
@@ -77,6 +80,7 @@ const BankService = () => {
     const onSuccess = async (response: loginApiResponse) => {
       toast.success("Bank Details Updated Successfully");
       await queryClient.invalidateQueries({ queryKey: ["bank"] });
+      revalidateServer("employee");
     };
     const onError = (error: errorType) => {
       toast.error(viewError(error));

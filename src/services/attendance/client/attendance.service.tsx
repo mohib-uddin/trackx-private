@@ -33,6 +33,7 @@ const AttendanceService = () => {
     const onSuccess = async (response: loginApiResponse) => {
       toast.success("Checked In Successfully");
       await queryClient.invalidateQueries({ queryKey: ["last-attendance"] });
+      await queryClient.invalidateQueries({ queryKey: ["attendance"] });
     };
     const onError = (error: errorType) => {
       toast.error(viewError(error));
@@ -56,6 +57,7 @@ const AttendanceService = () => {
     const onSuccess = async (response: loginApiResponse) => {
       toast.success("Checked Out Successfully");
       await queryClient.invalidateQueries({ queryKey: ["last-attendance"] });
+      await queryClient.invalidateQueries({ queryKey: ["attendance"] });
     };
     const onError = (error: errorType) => {
       toast.error(viewError(error));

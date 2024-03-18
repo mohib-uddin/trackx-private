@@ -159,7 +159,7 @@ const WeeklyHolidayService = () => {
     const queryClient = useQueryClient();
     function handleDeleteDesignation(id: string): Promise<loginApiResponse> {
       return axios
-        .delete(`/weekly-holiday/single/${id}`)
+        .delete(`/public-holiday/single/${id}`)
         .then((res) => res.data);
     }
     const onSuccess = async (response: loginApiResponse) => {

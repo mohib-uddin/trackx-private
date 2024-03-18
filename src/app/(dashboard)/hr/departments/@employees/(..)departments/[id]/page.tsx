@@ -13,6 +13,7 @@ const EmployeeByDesignationModal = async ({
   return (
     <BaseServerModal title={department.name}>
       {department?.user?.map((el) => {
+        // @ts-ignore
         return <EmployeeCard key={el.id} employee={el} />;
       })}
     </BaseServerModal>

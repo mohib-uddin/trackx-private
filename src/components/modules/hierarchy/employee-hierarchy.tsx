@@ -1,13 +1,19 @@
 "use client";
-import { Avatar } from "@nextui-org/avatar";
-import { Card, CardBody } from "@nextui-org/card";
+import { Avatar, AvatarGroup } from "@nextui-org/avatar";
+import { Tooltip } from "@nextui-org/tooltip";
 import { motion, Variants } from "framer-motion";
 import { useState } from "react";
 import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 import { IoPeople } from "react-icons/io5";
 import { Tree, TreeNode } from "react-organizational-chart";
 
-import { employeeHierarchyType } from "@/_utils/types/heirarchy";
+import { capitalizeAfterSpace } from "@/_utils/helpers";
+import { getMedia } from "@/_utils/helpers/get-media";
+import { userDataType } from "@/_utils/types";
+import {
+  employeeHierarchyType,
+  heirarchyUserType,
+} from "@/_utils/types/heirarchy";
 import HierarchyService from "@/services/heirarchy/heirarchy.service";
 
 const variants: Variants = {
@@ -20,6 +26,7 @@ const EmployeeCard = ({
   position,
   onClick,
   color,
+  user,
   subCount,
   isVisible,
 }: {
@@ -29,6 +36,7 @@ const EmployeeCard = ({
   color?: string;
   isVisible?: boolean;
   subCount: number;
+  user: heirarchyUserType[] | undefined;
 }) => {
   return (
     <motion.div
@@ -45,16 +53,72 @@ const EmployeeCard = ({
         }
       >
         <div className={"flex flex-col justify-center items-center"}>
-          <Avatar
-            classNames={{
-              base: "bg-gradient-to-br from-[#3494E6] to-[#EC6EAD]",
-              icon: "text-black/60",
-            }}
-            size={"lg"}
-          >
-            M
-          </Avatar>
-          <h2 className={"font-[700] text-lg"}>{name}</h2>
+          <div className={"w-full flex flex-col justify-center items-center"}>
+            {user && user?.length > 1 ? (
+              <AvatarGroup>
+                {user?.map((el, index) => (
+                  <Tooltip
+                    content={
+                      <div className="px-1 py-2">
+                        <div className="text-tiny">
+                          {capitalizeAfterSpace(
+                            `${el.firstName} ${el.lastName}`,
+                          )}
+                        </div>
+                      </div>
+                    }
+                    color={"primary"}
+                    key={index}
+                  >
+                    <Avatar
+                      classNames={{
+                        base: "bg-gradient-to-br from-[#3494E6] to-[#EC6EAD]",
+                        icon: "text-black/60",
+                      }}
+                      size={"lg"}
+                      src={
+                        el.image
+                          ? getMedia(`/user/${el.id}/profile-image/${el.image}`)
+                          : undefined
+                      }
+                      isBordered={true}
+                    >
+                      M
+                    </Avatar>
+                  </Tooltip>
+                ))}
+              </AvatarGroup>
+            ) : (
+              <Avatar
+                classNames={{
+                  base: "bg-gradient-to-br from-[#3494E6] to-[#EC6EAD]",
+                  icon: "text-black/60",
+                }}
+                size={"lg"}
+                src={
+                  user && user.length > 0 && user[0].image
+                    ? getMedia(
+                        `/user/${user[0].id}/profile-image/${user[0].image}`,
+                      )
+                    : undefined
+                }
+                isBordered={true}
+              >
+                M
+              </Avatar>
+            )}
+            {user && user?.length > 1 ? (
+              <h2 className={"font-[700] text-lg"}>Employees</h2>
+            ) : (
+              <h2 className={"font-[700] text-lg"}>
+                {user && user.length > 0
+                  ? capitalizeAfterSpace(
+                      user[0].firstName + " " + user[0].lastName,
+                    )
+                  : "Vacant"}
+              </h2>
+            )}
+          </div>
           {position && (
             <h2 className={"font-[700] text-default-400 text-base"}>
               {position}
@@ -123,6 +187,8 @@ const EmployeeNodes = ({
                   name={el.name}
                   isVisible={isSubordinatesVisible}
                   subCount={el.subordinates.length}
+                  position={el.name}
+                  user={el.user}
                 />
               }
             >
@@ -148,7 +214,9 @@ const EmployeeHierarchy = () => {
           isVisible={true}
           subCount={hierarchyData?.subordinates.length || 0}
           name={hierarchyData?.name || ""}
+          position={hierarchyData?.name || ""}
           onClick={() => {}}
+          user={hierarchyData?.user}
         />
       }
     >

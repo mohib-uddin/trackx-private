@@ -15,7 +15,7 @@ const DesignationService = () => {
     function fetchAllDesignations(): Promise<fetchAllDesignationApiResponse> {
       let url = `/designation?status=${status}&page=${page}&limit=10`;
       if (query != "") {
-        url += `&query=${url}`;
+        url += `&query=${query}`;
       }
       return axios.get(url).then((res) => res.data);
     }
@@ -74,10 +74,14 @@ const DesignationService = () => {
     const queryClient = useQueryClient();
     function handleCreateDesignation(data: {
       name: string;
+      reportsTo: number;
       id: string;
     }): Promise<loginApiResponse> {
       return axios
-        .put(`/designation/${data.id}`, { name: data.name })
+        .put(`/designation/${data.id}`, {
+          name: data.name,
+          reportsTo: data.reportsTo,
+        })
         .then((res) => res.data);
     }
     const onSuccess = async (response: loginApiResponse) => {

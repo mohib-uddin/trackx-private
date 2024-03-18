@@ -39,3 +39,8 @@ export enum PERMISSIONS {
   CREATE_TASK_STATUS = "create-task-Status", // Note: There might be a typo here, it says "create-task-Status"
   READ_ALL_SETTING = "readAll-setting",
 }
+
+enum CALCULATION_TYPE {
+  FLAT = "flat",
+  PERCENTAGE = "percentage",
+}

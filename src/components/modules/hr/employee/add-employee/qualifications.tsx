@@ -1,3 +1,4 @@
+import React, { SetStateAction, useState } from "react";
 import { useFieldArray } from "react-hook-form";
 
 import { EMPLOYEE_FORM_STEPPERS } from "@/_utils/enums";
@@ -14,10 +15,14 @@ export default function QualificationForm({
   control,
   trigger,
   register,
+  skills,
+  setSkills,
 }: {
   control: employeeFormControl;
   trigger: employeeFormTrigger;
   register: any;
+  skills: string[];
+  setSkills: React.Dispatch<SetStateAction<string[]>>;
 }) {
   const { fields, append, remove } = useFieldArray({
     name: "education",
@@ -28,6 +33,8 @@ export default function QualificationForm({
       <div className="flex flex-col gap-4 mb-4">
         <BaseTagInput
           type="text"
+          tags={skills}
+          setTags={setSkills}
           control={control}
           name="skill"
           label="Skills"

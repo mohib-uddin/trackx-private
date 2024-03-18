@@ -1,3 +1,6 @@
+import { EMPLOYEE_FORM_STEPPERS } from "@/_utils/enums";
+import addEmployeeState from "@/store";
+
 interface Props {
   steps: { id: string; name: string }[];
   currentStep: number;

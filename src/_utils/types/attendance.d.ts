@@ -34,6 +34,9 @@ export type PunchBy = {
 export type User = {
   firstName: string;
   lastName: string;
+  id: number;
+  image: string;
+  email?: string;
 };
 
 export type attendanceType = {

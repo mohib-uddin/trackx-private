@@ -11,6 +11,7 @@ import * as z from "zod";
 
 import { ALLOCATED_ASSETS_COLS } from "@/_utils/data/tables/assets";
 import { capitalizeAfterSpace } from "@/_utils/helpers";
+import { getMedia } from "@/_utils/helpers/get-media";
 import { allocatedAssetType, assetType } from "@/_utils/types/assets";
 import AssetAutocomplete from "@/components/common/autocomplete/assets-autocomplete";
 import EmployeeAutocomplete from "@/components/common/autocomplete/employee-autocomplete";
@@ -94,15 +95,25 @@ export default function AllocatedAssets() {
       switch (columnKey) {
         case "allocatedDate":
           return <Moment format={"YYYY/MM/DD"} date={asset.allocatedDate} />;
-        case "user":
+        case "user": {
+          const { user } = asset;
           return (
             <User
-              description={asset.user.email}
-              name={`${asset.user.firstName}${asset.user.lastName}`}
+              description={user.email}
+              name={`${user.firstName}${user.lastName}`}
+              avatarProps={{
+                src: user?.image
+                  ? getMedia(`/user/${user?.id}/profile-image/${user?.image}`)
+                  : undefined,
+                isBordered: true,
+                fallback: <div>{user?.firstName[0].toUpperCase()}</div>,
+              }}
             >
-              {asset.user?.email}
+              {user?.email}
             </User>
           );
+        }
+
         case "asset":
           return <p>{asset.asset.name}</p>;
         case "access":

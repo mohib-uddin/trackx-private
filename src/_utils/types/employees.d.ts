@@ -150,4 +150,6 @@ export type employmentStatusType = {
 
 export type fetchAllEmploymentStatusApiResponse = {
   data: employmentStatusType[];
+  lastPage: number;
+  total: number;
 };

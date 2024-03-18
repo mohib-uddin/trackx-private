@@ -1,9 +1,12 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Chip } from "@nextui-org/chip";
+import { Input } from "@nextui-org/input";
 import { User } from "@nextui-org/user";
+import moment from "moment";
 import { useRouter } from "next/navigation";
 import React, { Key, useEffect, useState } from "react";
+import DatePicker from "react-datepicker";
 import { useForm } from "react-hook-form";
 import Moment from "react-moment";
 import * as z from "zod";
@@ -13,6 +16,7 @@ import {
   attendanceStatusColorMap,
 } from "@/_utils/data/tables/attendance";
 import { capitalizeAfterSpace } from "@/_utils/helpers";
+import { getMedia } from "@/_utils/helpers/get-media";
 import { attendanceType } from "@/_utils/types/attendance";
 import Breadcrumb from "@/components/common/breadcrumbs";
 import BaseInput from "@/components/common/form/base-input";
@@ -34,12 +38,8 @@ export default function AllAttendance({ ip }: { ip: string }) {
   const { useFetchAllAttendance, useHandleCreateManualAttendance } =
     AttendanceService();
   const [page, setPage] = useState(1);
-  const [startDate, setStartDate] = useState(
-    new Date().toISOString().split("T")[0],
-  );
-  const [endDate, setEndDate] = useState(
-    new Date("3-4-25").toISOString().split("T")[0],
-  );
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date("4-1-24"));
   const user = TokenService.getUser();
 
   const {
@@ -58,7 +58,11 @@ export default function AllAttendance({ ip }: { ip: string }) {
     }
   }, [user]);
   const { data: attendanceData, isLoading: isAttendanceDataPending } =
-    useFetchAllAttendance(page, startDate, endDate);
+    useFetchAllAttendance(
+      page,
+      moment(startDate).format().split("T")[0],
+      moment(endDate).format().split("T")[0],
+    );
   const {
     mutate: handleCreateAttendance,
     isPending: isCreateAttendancePending,
@@ -72,11 +76,22 @@ export default function AllAttendance({ ip }: { ip: string }) {
         case "user":
           return (
             <User
-              description={attendance.user.firstName}
-              name={capitalizeAfterSpace(
-                `${attendance.user.firstName} ${attendance.user.lastName}`,
-              )}
-            ></User>
+              description={attendance.user.email}
+              name={`${attendance.user.firstName}${attendance.user.lastName}`}
+              avatarProps={{
+                src: attendance.user.image
+                  ? getMedia(
+                      `/user/${attendance.user.id}/profile-image/${attendance.user.image}`,
+                    )
+                  : undefined,
+                isBordered: true,
+                fallback: (
+                  <div>{attendance.user.firstName[0].toUpperCase()}</div>
+                ),
+              }}
+            >
+              {user?.email}
+            </User>
           );
         case "inTime":
           return <Moment format={"YYYY/MM/DD"} date={attendance.inTime} />;
@@ -115,7 +130,38 @@ export default function AllAttendance({ ip }: { ip: string }) {
   const topContent = React.useMemo(() => {
     return (
       <div className={"flex w-full justify-between"}>
-        <div className={"w-3/4"}></div>
+        <div className={"w-3/4 flex flex-col md:flex-row gap-x-4 "}>
+          <DatePicker
+            customInput={<Input variant={"faded"} size={"sm"} />}
+            onChange={(el) => {
+              if (el) {
+                setStartDate(el);
+              }
+            }}
+            dateFormat={"MM-dd-yyyy"}
+            placeholderText={"Select Start Date"}
+            peekNextMonth
+            // showMonthDropdown
+            // showYearDropdown
+            dropdownMode="select"
+            selected={startDate}
+          />
+          <DatePicker
+            customInput={<Input variant={"faded"} size={"sm"} />}
+            placeholderText={"Select End Date"}
+            peekNextMonth
+            // showMonthDropdown
+            // showYearDropdown
+            dateFormat={"MM-dd-yyyy"}
+            dropdownMode="select"
+            onChange={(el) => {
+              if (el) {
+                setEndDate(el);
+              }
+            }}
+            selected={endDate}
+          />
+        </div>
         <div className={"flex flex-col md:flex-row gap-4 items-center"}>
           <BaseFormModal
             handleSubmit={handleSubmit}

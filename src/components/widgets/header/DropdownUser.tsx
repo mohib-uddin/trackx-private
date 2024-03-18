@@ -3,6 +3,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
+import { capitalizeAfterSpace } from "@/_utils/helpers";
+import { getMedia } from "@/_utils/helpers/get-media";
 import TokenService from "@/services/token/token.service";
 
 const DropdownUser = () => {
@@ -37,7 +39,7 @@ const DropdownUser = () => {
     document.addEventListener("keydown", keyHandler);
     return () => document.removeEventListener("keydown", keyHandler);
   });
-
+  const user = TokenService.getUser();
   return (
     <div className="relative">
       <Link
@@ -48,22 +50,22 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Thomas Anree
+            {capitalizeAfterSpace(`${user?.firstName} ${user?.lastName}`)}
           </span>
-          <span className="block text-xs">UX Designer</span>
+          {/*<span className="block text-xs">UX Designer</span>*/}
         </span>
 
         <span className="h-12 w-12 rounded-full bg-graydark">
-          {/*<Image*/}
-          {/*  width={112}*/}
-          {/*  height={112}*/}
-          {/*  src={"/images/user/user-01.png"}*/}
-          {/*  style={{*/}
-          {/*    width: "auto",*/}
-          {/*    height: "auto",*/}
-          {/*  }}*/}
-          {/*  alt="User"*/}
-          {/*/>*/}
+          {user && user.image && (
+            <Image
+              width={112}
+              height={112}
+              src={getMedia(`/user/${user.id}/profile-image/${user.image}`)}
+              className={"w-12 h-12 rounded-full"}
+              alt="User"
+              objectFit={"contain"}
+            />
+          )}
         </span>
 
         <svg
@@ -95,7 +97,7 @@ const DropdownUser = () => {
         <ul className="flex flex-col gap-5 border-b border-stroke px-6 py-7.5 dark:border-strokedark">
           <li>
             <Link
-              href="/profile"
+              href={`/hr/employee/${user?.id}`}
               className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
             >
               <svg

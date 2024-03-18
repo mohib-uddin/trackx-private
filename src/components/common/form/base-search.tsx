@@ -32,6 +32,7 @@ const BaseSearch = ({
           className="w-full sm:max-w-[44%]"
           placeholder={placeholder}
           startContent={<SearchIcon />}
+          variant={"faded"}
           value={searchQuery}
           onClear={() => onClear()}
           onValueChange={onSearchChange}

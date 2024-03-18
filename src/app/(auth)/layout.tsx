@@ -1,7 +1,4 @@
-import Image from "next/image";
-
 import LoginAsset from "../../../public/login-vector.svg";
-import Logo from "../../../public/logo.png";
 
 export default function AuthLayout({
   children,
@@ -14,24 +11,12 @@ export default function AuthLayout({
         "w-full flex flex-col md:flex-row justify-center items-center bg-white h-[100vh]"
       }
     >
-      <Image
-        width={800}
-        height={800}
-        quality={100}
-        src={LoginAsset}
-        alt={"Login"}
-        className={"w-[600px]  xl:w-[800px] "}
-      />
+      <div className={"w-full md:w-[600px]  xl:w-[800px] "}>
+        <LoginAsset />
+      </div>
+
       <main className="w-full flex flex-col items-center justify-center max-w-[500px]">
-        {/*<Image*/}
-        {/*  src={Logo}*/}
-        {/*  alt={"TrackX"}*/}
-        {/*  fill={true}*/}
-        {/*  width={300}*/}
-        {/*  className={"h-40"}*/}
-        {/*  quality={100}*/}
-        {/*/>*/}
-        <section className="h-full w-full flex items-center justify-center ">
+        <section className="h-full w-4/5 md:w-full flex items-center justify-center ">
           {children}
         </section>
       </main>

@@ -1,5 +1,6 @@
 import { Button } from "@nextui-org/button";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
+import { IoDocumentAttachOutline } from "react-icons/io5";
 
 import { ScrollArea } from "@/components/common/scroll-area/scroll-area";
 import AnnouncementService from "@/services/announcements/client/announcement.service";
@@ -72,12 +73,13 @@ const DashboardAnnouncements: React.FC = () => {
                   </div>
                 </div>
                 <Button
+                  isIconOnly={true}
                   color="primary"
                   radius="full"
                   size="sm"
                   variant={"solid"}
                 >
-                  {"View Attachments"}
+                  <IoDocumentAttachOutline />
                 </Button>
               </CardHeader>
               <CardBody className="px-3 py-0 text-small text-default-400">

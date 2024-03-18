@@ -21,7 +21,7 @@ export type userDataType = {
   updatedAt: string;
   token: string;
   departmentId: number;
-  avatar: string;
+  image: string;
 };
 
 export type loginApiResponse = userDataType;

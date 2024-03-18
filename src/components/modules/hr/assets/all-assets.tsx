@@ -88,150 +88,154 @@ export default function AllAssets() {
       }),
     [assetTypes],
   );
-  const renderCell = React.useCallback((asset: assetType, columnKey: Key) => {
-    const cellValue = asset[columnKey as keyof assetType];
+  const renderCell = React.useCallback(
+    (asset: assetType, columnKey: Key) => {
+      const cellValue = asset[columnKey as keyof assetType];
 
-    switch (columnKey) {
-      case "name":
-        return <p>{asset.name}</p>;
+      switch (columnKey) {
+        case "name":
+          return <p>{asset.name}</p>;
 
-      case "createdAt":
-        return <Moment format={"YYYY/MM/DD"} date={asset.createdAt} />;
-      case "assetTypeId":
-        return (
-          <div>
-            {assetTypes && assetTypes.data && (
-              <p>{assetTypes?.data?.find((el) => el.id === asset.id)?.name}</p>
-            )}
-          </div>
-        );
-      case "taxable":
-        return <div>{asset.taxable ? "Yes" : "No"}</div>;
-      case "isAllocated":
-        return (
-          <Chip
-            className="capitalize"
-            color={asset.isAllocated ? "success" : "warning"}
-            size="md"
-            variant="flat"
-          >
-            {asset.isAllocated ? "Allocated" : "UnAllocated"}
-          </Chip>
-        );
-      case "actions":
-        return (
-          <div className="relative flex items-center gap-2">
-            <Tooltip content="Edit">
-              <BaseFormModal
-                name={"Edit Asset Type"}
-                title={"Edit Asset Type"}
-                isIconButton={true}
-                openCallback={() => {
-                  setEditValue("name", asset.name);
-                  setEditValue("description", asset.description);
-                  setEditValue("id", asset.id.toString());
-                  setEditValue("idNo", asset.idNo.toString());
-
-                  setEditValue("assetTypeId", asset.assetTypeId.toString());
-                  setEditValue("taxable", asset.taxable);
-                  setEditValue("model", asset.model);
-                  setEditValue("manufacturer", asset.manufacturer);
-                  setEditValue("currentValue", asset.currentValue);
-                  setEditValue("condition", asset.condition);
-                }}
-                icon={<EditIcon />}
-                handleSubmit={handleEditSubmit}
-                action={handleUpdateAsset}
-                isLoading={isUpdateAssetPending}
-                actionTitle={"Update"}
-              >
-                <div className={"flex flex-col gap-4"}>
-                  <BaseInput
-                    placeholder={"Name"}
-                    name={"name"}
-                    label={"Name"}
-                    type={"text"}
-                    control={editControl}
-                  />
-                  <BaseInput
-                    placeholder={"Description"}
-                    name={"description"}
-                    type={"text"}
-                    label={"Description"}
-                    control={editControl}
-                  />
-                  <div className={" flex items-center gap-4"}>
-                    Taxable?{" "}
-                    <Switch
-                      onCheckedChange={(checked) =>
-                        setValue("taxable", checked)
-                      }
-                    ></Switch>
+        case "createdAt":
+          return <Moment format={"YYYY/MM/DD"} date={asset.createdAt} />;
+        case "assetTypeId":
+          return (
+            <div>
+              {assetTypes && assetTypes.data && (
+                <p>
+                  {assetTypes?.data?.find((el) => el.id === asset.id)?.name}
+                </p>
+              )}
+            </div>
+          );
+        case "taxable":
+          return <div>{asset.taxable ? "Yes" : "No"}</div>;
+        case "isAllocated":
+          return (
+            <Chip
+              className="capitalize"
+              color={asset.isAllocated ? "success" : "warning"}
+              size="md"
+              variant="flat"
+            >
+              {asset.isAllocated ? "Allocated" : "UnAllocated"}
+            </Chip>
+          );
+        case "actions":
+          return (
+            <div className="relative flex items-center gap-2">
+              <Tooltip content="Edit">
+                <BaseFormModal
+                  name={"Edit Asset Type"}
+                  title={"Edit Asset Type"}
+                  isIconButton={true}
+                  openCallback={() => {
+                    setEditValue("name", asset.name);
+                    setEditValue("description", asset.description);
+                    setEditValue("id", asset.id.toString());
+                    setEditValue("idNo", asset.idNo.toString());
+                    setEditValue("assetTypeId", asset.assetTypeId.toString());
+                    setEditValue("taxable", asset.taxable);
+                    setEditValue("model", asset.model);
+                    setEditValue("manufacturer", asset.manufacturer);
+                    setEditValue("currentValue", asset.currentValue);
+                    setEditValue("condition", asset.condition);
+                  }}
+                  icon={<EditIcon />}
+                  handleSubmit={handleEditSubmit}
+                  action={handleUpdateAsset}
+                  isLoading={isUpdateAssetPending}
+                  actionTitle={"Update"}
+                >
+                  <div className={"flex flex-col gap-4"}>
+                    <BaseInput
+                      placeholder={"Name"}
+                      name={"name"}
+                      label={"Name"}
+                      type={"text"}
+                      control={editControl}
+                    />
+                    <BaseInput
+                      placeholder={"Description"}
+                      name={"description"}
+                      type={"text"}
+                      label={"Description"}
+                      control={editControl}
+                    />
+                    <div className={" flex items-center gap-4"}>
+                      Taxable?{" "}
+                      <Switch
+                        onCheckedChange={(checked) =>
+                          setValue("taxable", checked)
+                        }
+                      ></Switch>
+                    </div>
+                    <BaseSelect
+                      name={"assetTypeId"}
+                      placeholder={"Asset Type"}
+                      variant={"underlined"}
+                      values={assetTypeData}
+                      control={editControl}
+                      label={"Asset Type"}
+                    />
+                    <BaseInput
+                      placeholder={"Model"}
+                      label={"Model"}
+                      name={"model"}
+                      type={"text"}
+                      control={editControl}
+                    />
+                    <BaseInput
+                      placeholder={"Manufacturer"}
+                      label={"Manufacturer"}
+                      name={"manufacturer"}
+                      type={"text"}
+                      control={editControl}
+                    />
+                    <BaseInput
+                      placeholder={"Identification Number"}
+                      label={"Identification No"}
+                      name={"idNo"}
+                      type={"text"}
+                      control={editControl}
+                    />
+                    <BaseSelect
+                      isString={true}
+                      name={"condition"}
+                      placeholder={"Condition"}
+                      variant={"underlined"}
+                      values={[
+                        { name: "New", id: "New" },
+                        { name: "Old", id: "Old" },
+                        { name: "Used", id: "Used" },
+                      ]}
+                      control={editControl}
+                      label={"Condition"}
+                    />
+                    <BaseInput
+                      placeholder={"Current Value"}
+                      label={"Current Value"}
+                      name={"currentValue"}
+                      type={"number"}
+                      control={editControl}
+                    />
                   </div>
-                  <BaseSelect
-                    name={"assetTypeId"}
-                    placeholder={"Asset Type"}
-                    variant={"underlined"}
-                    values={assetTypeData}
-                    control={editControl}
-                    label={"Asset Type"}
-                  />
-                  <BaseInput
-                    placeholder={"Model"}
-                    label={"Model"}
-                    name={"model"}
-                    type={"text"}
-                    control={editControl}
-                  />
-                  <BaseInput
-                    placeholder={"Manufacturer"}
-                    label={"Manufacturer"}
-                    name={"manufacturer"}
-                    type={"text"}
-                    control={editControl}
-                  />
-                  <BaseInput
-                    placeholder={"Identification Number"}
-                    label={"Identification No"}
-                    name={"idNo"}
-                    type={"text"}
-                    control={editControl}
-                  />
-                  <BaseSelect
-                    isString={true}
-                    name={"condition"}
-                    placeholder={"Condition"}
-                    variant={"underlined"}
-                    values={[
-                      { name: "New", id: "New" },
-                      { name: "Old", id: "Old" },
-                      { name: "Used", id: "Used" },
-                    ]}
-                    control={editControl}
-                    label={"Condition"}
-                  />
-                  <BaseInput
-                    placeholder={"Current Value"}
-                    label={"Current Value"}
-                    name={"currentValue"}
-                    type={"number"}
-                    control={editControl}
-                  />
-                </div>
-              </BaseFormModal>
-            </Tooltip>
-            <Tooltip color="danger" content="Delete user">
-              <DeleteConfirmationModal
-                deleteCallback={() => handleDeleteAsset(asset.id.toString())}
-                isLoading={isDeleteAsset}
-              />
-            </Tooltip>
-          </div>
-        );
-      default:
-        return cellValue;
-    }
-  }, []);
+                </BaseFormModal>
+              </Tooltip>
+              <Tooltip color="danger" content="Delete user">
+                <DeleteConfirmationModal
+                  deleteCallback={() => handleDeleteAsset(asset.id.toString())}
+                  isLoading={isDeleteAsset}
+                />
+              </Tooltip>
+            </div>
+          );
+        default:
+          return cellValue;
+      }
+    },
+    [isAssetTypeLoading],
+  );
 
   const loadingState = isAssetDataLoading ? "loading" : "idle";
   const topContent = React.useMemo(() => {
@@ -322,7 +326,7 @@ export default function AllAssets() {
         </div>
       </div>
     );
-  }, [page]);
+  }, [page, isAssetTypeLoading]);
   return (
     <div className={"flex flex-col justify-center"}>
       <BaseTable

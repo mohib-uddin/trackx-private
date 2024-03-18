@@ -6,6 +6,7 @@ import { Chip } from "@nextui-org/chip";
 import { Select, SelectItem } from "@nextui-org/select";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { IoDocumentAttachOutline } from "react-icons/io5";
 import * as z from "zod";
 
 import Breadcrumb from "@/components/common/breadcrumbs";
@@ -185,12 +186,13 @@ const AllAnnouncements = () => {
               </CardBody>
               <CardFooter>
                 <Button
+                  isIconOnly={true}
                   color="primary"
                   radius="full"
                   size="sm"
                   variant={"solid"}
                 >
-                  {"View Attachments"}
+                  <IoDocumentAttachOutline />
                 </Button>
               </CardFooter>
             </Card>

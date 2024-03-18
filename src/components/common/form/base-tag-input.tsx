@@ -19,6 +19,8 @@ type Props<T extends FieldValues> = {
   variant?: "underlined" | "flat" | "faded" | "bordered";
   type: "text" | "password" | "number" | "email" | "date" | "time";
   label?: string;
+  tags: string[];
+  setTags: any;
 } & WithRequiredProperty<UseControllerProps<T>, "control">;
 function BaseTagInput<T extends FieldValues>({
   control,
@@ -28,6 +30,8 @@ function BaseTagInput<T extends FieldValues>({
   variant = "underlined",
   label,
   type,
+  tags,
+  setTags,
 }: Props<T>) {
   const {
     field: { value, onChange },
@@ -38,7 +42,6 @@ function BaseTagInput<T extends FieldValues>({
     control,
     rules,
   });
-  const [tags, setTags] = React.useState<string[]>([]);
 
   const handleAddTag = (tag: string) => {
     setTags([...tags, tag]);

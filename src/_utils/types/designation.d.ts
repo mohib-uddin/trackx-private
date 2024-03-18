@@ -6,6 +6,7 @@ export type designationType = {
   status: boolean;
   createdAt: string;
   updatedAt: string;
+  reportsTo: number;
 };
 export type fetchAllDesignationApiResponse = {
   data: designationType[];
@@ -13,8 +14,38 @@ export type fetchAllDesignationApiResponse = {
   lastPage: number;
   total: number;
 };
-export type fetchEmployeeByDesignation = {
-  designationId: string;
-  designationName: string;
-  employee: employeeType[];
+type designationUserType = {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email?: string;
+  image?: string;
+};
+
+export type fetchSingleDesignation = {
+  id: number;
+  name: string;
+  status: boolean;
+  createdAt: string;
+  updatedAt: string;
+  reportsTo: number | null;
+  superior: {
+    id: number;
+    name: string;
+    status: boolean;
+    createdAt: string;
+    updatedAt: string;
+    reportsTo: number | null;
+    user: designationUserType[];
+  };
+  subordinates: {
+    id: number;
+    name: string;
+    status: boolean;
+    createdAt: string;
+    updatedAt: string;
+    reportsTo: number;
+    user: designationUserType[];
+  }[];
+  user: designationUserType[];
 };

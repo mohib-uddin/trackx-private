@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { EMPLOYEE_FORM_STEPPERS } from "@/_utils/enums";
 import BaseButton from "@/components/common/button/base-button";
+import BaseDropzone from "@/components/common/form/base-dropzone";
 import BaseFile from "@/components/common/form/base-file";
 import BaseInput from "@/components/common/form/base-input";
 import {
@@ -65,14 +66,16 @@ export default function UserInformationForm({
           placeholder="Enter Your Email"
         />
       </div>
-      <BaseFile
-        label={"Profile Picture"}
-        selectedImage={selectedImage}
-        control={control}
-        name={"file"}
-        isMultiple
-        inputvalue={selectedImage}
-      />
+      <div className={"mt-4 w-full md:w-1/2"}>
+        <p className={"mb-2 font-semibold text-primary"}>Employee Image:</p>
+        <BaseDropzone
+          control={control}
+          name={"file"}
+          multiple={true}
+          maxFiles={1}
+        />
+      </div>
+
       <BaseButton
         onClick={async () => {
           const isValid = await trigger();

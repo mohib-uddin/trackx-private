@@ -8,6 +8,7 @@ const EmployeeByDesignation = async ({
 }) => {
   const { id } = params;
   const department = await fetchEmployeeByDepartment(id);
+  console.log(department, "depart");
   return (
     <div>
       <h2 className={"font-[700] text-2xl"}>{department.name}</h2>
@@ -17,6 +18,8 @@ const EmployeeByDesignation = async ({
         }
       >
         {department?.user?.map((el) => (
+          // @ts-ignore
+
           <EmployeeCard key={el.id} employee={el} />
         ))}
       </div>

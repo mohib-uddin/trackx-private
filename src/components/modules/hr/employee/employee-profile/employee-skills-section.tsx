@@ -1,10 +1,10 @@
 import "react-vertical-timeline-component/style.min.css";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@nextui-org/button";
 import { Chip } from "@nextui-org/chip";
+import { EditIcon } from "@nextui-org/shared-icons";
 import { PlusIcon, WorkflowIcon } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useInView } from "react-intersection-observer";
 import {
@@ -15,6 +15,7 @@ import * as z from "zod";
 
 import { employeeType } from "@/_utils/types/employees";
 import BaseInput from "@/components/common/form/base-input";
+import BaseTagInput from "@/components/common/form/base-tag-input";
 import BaseFormModal from "@/components/common/modal/base-form-modal";
 import EmployeeService from "@/services/employees/client/employee.service";
 
@@ -26,6 +27,9 @@ export const educationFormSchema = z.object({
   startDate: z.string({ required_error: "Start Date Is Required" }),
   endDate: z.string({ required_error: "End Date is Required" }),
   userId: z.number(),
+});
+const editSkillFormSchema = z.object({
+  skill: z.string().optional(),
 });
 const EmployeeInformationSection = ({
   employeeData,
@@ -44,22 +48,52 @@ const EmployeeInformationSection = ({
     resolver: zodResolver(educationFormSchema),
     shouldUnregister: true,
   });
+  const skillForm = useForm<z.infer<typeof editSkillFormSchema>>({
+    resolver: zodResolver(editSkillFormSchema),
+    shouldUnregister: true,
+  });
   const { useHandleAddEmployeeEducation } = EmployeeService();
   const { mutate: handleAddEducation, isPending } =
     useHandleAddEmployeeEducation();
   useEffect(() => {
     setValue("userId", Number(employeeData.id));
   }, []);
+  const { useHandleUpdateEmployee } = EmployeeService();
+  const { mutate: handleUpdateEmployee, isPending: isUpdateEmployeePending } =
+    useHandleUpdateEmployee(Number(employeeData.id));
+  const skills = skillForm.watch("skill");
+  console.log(skills, "skills");
+  const [tags, setTags] = useState<string[]>(employeeData.skill);
+
   return (
     <div className={"p-4 text-left"}>
       <div className={"mb-2 flex justify-between item-center gap-x-4"}>
         <h2 className={"text-xl font-[700]"}>Skills</h2>
-        <Button color={"primary"} isIconOnly={true}>
-          <PlusIcon size={15} />
-        </Button>
+        <BaseFormModal
+          title={"Update Personal Info"}
+          name={"Personal Information"}
+          isIconButton={true}
+          isLoading={isUpdateEmployeePending}
+          icon={<EditIcon />}
+          action={(data: z.infer<typeof editSkillFormSchema>) =>
+            handleUpdateEmployee({ skill: tags })
+          }
+          handleSubmit={skillForm.handleSubmit}
+          actionTitle={"Update"}
+        >
+          <BaseTagInput
+            type="text"
+            control={skillForm.control}
+            name="skill"
+            label="Skills"
+            placeholder="eg: Reactjs Nextjs"
+            tags={tags}
+            setTags={setTags}
+          />
+        </BaseFormModal>
       </div>
-      {employeeData.skill.length > 0 ? (
-        employeeData.skill.map((el, index) => {
+      {employeeData?.skill?.length > 0 ? (
+        employeeData?.skill?.map((el, index) => {
           return (
             <Chip key={index} color={"primary"}>
               {el}
@@ -120,10 +154,10 @@ const EmployeeInformationSection = ({
           </div>
         </BaseFormModal>
       </div>
-      {employeeData.educations.length > 0 ? (
+      {employeeData?.educations?.length > 0 ? (
         <section ref={ref}>
           <VerticalTimeline lineColor="#e4e4e7" className={"!bg-red-400"}>
-            {employeeData.educations.map((el, index) => (
+            {employeeData?.educations?.map((el, index) => (
               <VerticalTimelineElement
                 key={index}
                 visible={inView}

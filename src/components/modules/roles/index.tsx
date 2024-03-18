@@ -1,7 +1,6 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EditIcon, EyeIcon } from "@nextui-org/shared-icons";
-import { Switch } from "@nextui-org/switch";
 import { Tooltip } from "@nextui-org/tooltip";
 import { useRouter } from "next/navigation";
 import React, { Key, useState } from "react";
@@ -17,6 +16,7 @@ import BaseInput from "@/components/common/form/base-input";
 import BaseSearch from "@/components/common/form/base-search";
 import BaseFormModal from "@/components/common/modal/base-form-modal";
 import DeleteConfirmationModal from "@/components/common/modal/delete-confirmation-modal";
+import { Switch } from "@/components/common/switch/base-switch";
 import BaseTable from "@/components/common/tables/base-table";
 import RolesService from "@/services/roles/client/roles.service";
 
@@ -137,13 +137,10 @@ export default function ViewAllRoles() {
           />
         </div>
         <div className={"flex flex-col md:flex-row gap-4 items-center"}>
-          <Switch
-            isSelected={isActive}
-            defaultSelected
-            onValueChange={setIsActive}
-          >
-            Is Active
-          </Switch>
+          <div className={"flex gap-4 items-center"}>
+            <p>Is Active?</p>
+            <Switch defaultChecked={true} onCheckedChange={setIsActive} />
+          </div>
           <BaseFormModal
             handleSubmit={handleSubmit}
             action={handleCreateRole}
