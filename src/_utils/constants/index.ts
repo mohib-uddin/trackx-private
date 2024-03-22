@@ -1,4 +1,4 @@
-export const API_BASEURL = "http://api.wenawa.com";
+export const API_BASEURL = "https://api.wenawa.com";
 export * from "./cookies";
 
 export const PUBLIC_ENDPOINTS: string[] = ["/user/login"];
