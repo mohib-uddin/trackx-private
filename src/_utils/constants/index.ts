@@ -1,4 +1,4 @@
-export const API_BASEURL = "http://51.21.2.91/api";
+export const API_BASEURL = "http://54.173.216.196/api";
 export * from "./cookies";
 
 export const PUBLIC_ENDPOINTS: string[] = ["/user/login"];
